@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "firebase/auth"
 import "firebase/firestore"
-import firebase, {auth, provider} from "./firebase"
+import firebase, {auth, provider} from "../firebase"
 import MessageContainer from "./MessageContainer"
 import InboxContainer from "./InboxContainer"
 import NewMessage from "./NewMessage"
@@ -9,24 +9,37 @@ import { AppContainer,
   LogInButton, 
   InboxMessageContainer, 
   AppTitle,
-  LogOutButton
-  } from "./App.styles"
+  LogOutButton,
+  HomepageContainer,
+} from "../Styles/App.styles"
+import { connect } from 'react-redux'
+import { 
+  addUser,
+  addUserID,
+  addCurrentChatID,
+  addEmail,
+  addNewMessageOtherUserEmail,
+  addAllUserEmails,
+  addAllCurrentUserIDs,
+  addAllCurrentUserEmails,
+  addMessages,
+  preventScrollDown,
+  loadMessagesText,
+} from '../Redux/actions/appActions'
 
+const mapStateToProps = (state) => ({
+  messagesRedux: state.app.messagesRedux,
+  userRedux: state.app.userRedux,
+  currentChatIDRedux: state.app.currentChatIDRedux,
+  isMessageRequest: state.requests.isMessageRequest,
+  emailRedux: state.app.emailRedux,
+  quantityLoadMessages: state.app.quantityLoadMessages,
+  preventScrollDown: state.app.preventScrollDown,
+})
 
 class App extends Component {
-  
   state = {
-    messages: [],
-    // message: "",
     username: "",
-    user: null,
-    allUserEmails: [],
-    userID: "",
-    currentChatID: null,
-    allCurrentUserEmails: [],
-    allCurrentUserIDs: [],
-    email: "",
-    newMessageOtherUserEmail: "",
   }
   
   username = (e) => {
@@ -35,21 +48,15 @@ class App extends Component {
     })
   }
   
-  getCurrentID = (id) => {
-    this.setState({
-      currentChatID: id
-    })
-  }
-  
   stayLoggedIn = () => {
     auth.onAuthStateChanged((user)=> {
       if(user){
         this.setState({
-          user,
           username: user.displayName,
-          userID: user.uid,
-          email: user.email,
         })
+        this.props.dispatch(addEmail(user.email))
+        this.props.dispatch(addUserID(user.uid))
+        this.props.dispatch(addUser(user))
         this.getUserInfo()
       }
     })
@@ -63,23 +70,12 @@ class App extends Component {
       for (let userId in users){
         usersArray.push(users[userId].email)
       }
-      this.setState({
-        // allUserEmails: [...this.state.allUserEmails, users[userId].email]
-        allUserEmails: usersArray
-      })
-    })
-  }
-
-  getUserEmailsAndMessageIDsFromInbox = (emails, IDs) => {
-    this.setState({
-      allCurrentUserEmails: emails,
-      allCurrentUserIDs: IDs
+      this.props.dispatch(addAllUserEmails(usersArray))
     })
   }
   
   componentDidMount() {
     this.stayLoggedIn()
-    // this.getUserInfo()
     // this.addUserData("Fiona", "fiona@orange.com", "https://lh3.googleusercontent.com/a-/AOh14GiEWMCD6XAm34qOIe9A3LcvcHcPToUSdOroPHcb")
   }
 
@@ -93,55 +89,60 @@ class App extends Component {
     firebase.database().ref(`users/${uid}`).set(userData)
   }
   
-  // handleChange = (e) => {
-  //   this.setState({
-  //     message: e.target.value
-  //   })
-  // }
-  
   removeItem = (itemId) => {
-    const itemRef = firebase.database().ref(`/messages/${this.state.currentChatID}/${itemId}`)
+    const itemRef = firebase.database().ref(`/messages/${this.props.currentChatIDRedux}/${itemId}`)
     itemRef.remove()
   }
   
   logout = () => {
     auth.signOut()
-    .then(()=> {
-      this.setState({
-        user: null,
-        messages: [],
-        // message: "",
-        username: "",
-        allUserEmails: [],
-        userID: "",
-        allCurrentUserEmails: [],
-        allCurrentUserIDs: [],
-        email: "",
-        currentChatID: null,
-      })
-    })
+    this.props.dispatch(addMessages([]))
+    this.props.dispatch(addAllCurrentUserIDs([]))
+    this.props.dispatch(addAllCurrentUserEmails([]))
+    this.props.dispatch(addAllUserEmails([]))
+    this.props.dispatch(addNewMessageOtherUserEmail(''))
+    this.props.dispatch(addEmail(''))
+    this.props.dispatch(addCurrentChatID(null))
+    this.props.dispatch(addUser(null))
+    this.props.dispatch(addUserID(''))
   }
 
   getMessages = (id) => {
     const itemRef = firebase.database().ref(`messages/${id}`)
-    itemRef.on('value', (snapshot) => {
+    let limitMessages = itemRef.orderByKey().limitToLast(this.props.quantityLoadMessages)
+    limitMessages.on('value', (snapshot) => {
       let items = snapshot.val()
       let newState = []
-      for (let item in items) {
-        newState.push({
-          itemId: item,
-          user: items[item].user,
-          message: items[item].message,
-          email: items[item].email,
-        })
-        document.getElementById('scroll-here').scrollIntoView()
-      }
-      if(this.state.currentChatID===snapshot.ref_.path.pieces_[1]||this.state.currentChatID===id){
-        this.setState({
-          messages: newState
-        })
+      if(items){
+        if(items['requestStatus']==='accepted'||items['request']!==this.props.emailRedux||(items['request']===this.props.emailRedux&&items['requestStatus']==='pending')){
+          for (let item in items) {
+            newState.push({
+              itemId: item,
+              user: items[item].user,
+              message: items[item].message,
+              email: items[item].email,
+              sent: items[item].sent,
+              read: items[item].read,
+              readTime: items[item].readTime,
+            })
+          }
+          if(this.props.messagesRedux){
+            console.log('messages',this.props.messagesRedux.length)
+            console.log('newstate',newState.length)
+            if(this.props.messagesRedux.length+14===Object.keys(newState).length){
+              this.props.dispatch(loadMessagesText('No more messages'))
+            }
+          }
+          if(this.props.currentChatIDRedux===snapshot.ref_.path.pieces_[1]||this.props.currentChatIDRedux===id){
+            this.props.dispatch(addMessages(newState))
+          }
+        }
       }
     })
+    if(!this.props.preventScrollDown){
+      document.getElementById('scroll-here').scrollIntoView()
+      this.props.dispatch(preventScrollDown(false))
+    }
   }
 
   login = () => {
@@ -171,71 +172,45 @@ class App extends Component {
 
   newMessageRoute = (input) => {
     const route = async () => {
-      await this.getCurrentID(input)
+      await this.props.dispatch(addCurrentChatID(input))
       await this.getMessages(input)
     }
     route()
   }
 
-  getNewMessageEmail = (email) => {
-    this.setState({
-      newMessageOtherUserEmail: email
-    })
-  }
-
-  clearMessages = () => {
-    this.setState({
-      messages: []
-    })
+  test = () => {
+    console.log(this.state.allUserEmails)
   }
 
   render(){
     return (
       <AppContainer>
-        {this.state.user ?
-          <LogOutButton className="br1" onClick={this.logout}>
+        {/* <button onClick={this.getMessages}>get</button> */}
+        {this.props.userRedux ?
+          <LogOutButton className="br1 br3 pa2 ma1 dib" onClick={this.logout}>
             Log Out | {this.state.username}
           </LogOutButton>             
           :
-          <div>
+          <HomepageContainer>
             <AppTitle>Messaging App</AppTitle>
             <LogInButton onClick={this.login}>LOG IN</LogInButton>              
-          </div>
+          </HomepageContainer>
         }
-        {this.state.user ? 
+        {this.props.userRedux ? 
         <div>
           <NewMessage 
-          clearMessages={this.clearMessages}
-          getNewMessageEmail={this.getNewMessageEmail}
-          email={this.state.email}
           getMessages={this.getMessages}
-          allCurrentUserEmails={this.state.allCurrentUserEmails}
-          allCurrentUserIDs={this.state.allCurrentUserIDs}
-          getCurrentID={this.getCurrentID}
-          allUserEmails={this.state.allUserEmails}
           newMessageRoute={this.newMessageRoute}
           />
           <InboxMessageContainer>
             <InboxContainer 
-            getCurrentID={this.getCurrentID}
-            email={this.state.email}
-            currentChatID={this.state.currentChatID}
-            getUserEmailsAndMessageIDsFromInbox={this.getUserEmailsAndMessageIDsFromInbox}
             newMessageRoute={this.newMessageRoute}
             />
             <MessageContainer 
-            getCurrentID={this.getCurrentID}
             newMessageRoute={this.newMessageRoute}
-            allUserEmails={this.state.allUserEmails}
-            newMessageOtherUserEmail={this.state.newMessageOtherUserEmail}
-            email={this.state.email}
-            message={this.state.message}
-            currentChatID={this.state.currentChatID}
             getMessages={this.getMessages}
             usernameFunc={this.username}
             usernameState={this.state.username}
-            handleChange={this.handleChange}
-            messages={this.state.messages}
             removeItem={this.removeItem}
             />
           </InboxMessageContainer>
@@ -248,4 +223,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps)(App);

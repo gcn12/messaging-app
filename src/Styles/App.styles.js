@@ -2,13 +2,10 @@ import styled from "styled-components"
 
 export const AppContainer = styled.div`
     width: 100%;
-    // position: relative;
 `
 
 export const LogOutButton = styled.button`
     border: none;
-    height: 30px;
-    width: 160px;
     color: white;
     cursor: pointer;
     background-color: rgb(80, 80, 80);
@@ -45,4 +42,7 @@ export const AppTitle = styled.div`
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
+`
+
+export const HomepageContainer = styled.div`
 `

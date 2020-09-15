@@ -1,16 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
-import { IndexContainer } from "./Index.styles"
+import { IndexContainer } from "./Styles/Index.styles"
 import 'tachyons';
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux"
+import rootReducer from './Redux/reducers/rootReducer'
+import thunk from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension'
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 ReactDOM.render(
   <React.StrictMode>
-    <IndexContainer>
-      <App />
-    </IndexContainer>
+    <Provider store={store}>
+      <IndexContainer>
+        <App />
+      </IndexContainer>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

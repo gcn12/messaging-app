@@ -15,5 +15,7 @@ export const MessageInputArea = styled.textarea`
 `
  
 export const MessageInputButton = styled.button`
-    width: 7%;
+    &:hover {
+        cursor: pointer
+    }
 `

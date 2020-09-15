@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { ReactComponent as UnreadCircle } from './UnreadCircle.svg'
+import { ReactComponent as UnreadCircle } from '../UnreadCircle.svg'
 
 export const InboxContainer = styled.div`
     height: 90px;
@@ -54,3 +54,4 @@ export const UnreadCircleIcon = styled(UnreadCircle)`
 export const UnreadStyles = styled.div`
     position: absolute;
 `
+
