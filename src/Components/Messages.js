@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 // import { addQuantityLoadMessages } from '../Redux/actions/appActions'
 import firebase from '../firebase'
 import moment from 'moment'
-import Spinner from '../Spinner/Spinner'
 
 const mapStateToProps = (state) => ({
     messagesRedux: state.app.messagesRedux,
