@@ -92,7 +92,7 @@ class Messages extends Component {
                 
                 {this.props.messagesRedux.map((message, index)=> {
                     return(
-                        <ShowHideMessagesSpinner 
+                        <ShowHideMessages
                         messagesQuantity={this.props.messagesRedux.length}
                         index={index}
                         readTime={message.readTime}
@@ -112,7 +112,5 @@ class Messages extends Component {
         )
     }
 }
-
-// export default Messages
 
 export default connect(mapStateToProps)(Messages)
