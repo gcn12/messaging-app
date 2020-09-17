@@ -70,8 +70,6 @@ class ShowHideMessages extends Component {
     }
 }
 
-const ShowHideMessagesSpinner = Spinner(ShowHideMessages)
-
 class Messages extends Component {
 
 
