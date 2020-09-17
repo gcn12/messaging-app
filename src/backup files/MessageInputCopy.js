@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import firebase from "../firebase"
+import firebase from "firebase"
 import { MessageInputContainer, 
     MessageInputArea, 
     MessageInputButton, 
@@ -46,7 +46,7 @@ class MessageInput extends Component {
         const addMessageID = firebase.database().ref(`users/${this.props.userID}/messages`)
         let addMessageIDToOtherUser = firebase.database().ref(`users/${otherUserID}/messages`) 
         if(this.props.messagesRedux.length===0){
-            // this.props.newMessageRoute()
+            this.props.newMessageRoute()
             const itemRef = firebase.database().ref("messages")
             const messageInfo = {
                 lastMessage: Date.now(),
@@ -85,6 +85,7 @@ class MessageInput extends Component {
                     sent: Date.now(),
                 }
                 messageRef.push(message)
+                // this.props.getMessages(this.props.currentChatIDRedux)
                 document.getElementById("message-input").value=""
             })
         }else{
@@ -221,4 +222,3 @@ class MessageInput extends Component {
 }
 
 export default connect(mapStateToProps)(MessageInput)
-

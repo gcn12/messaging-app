@@ -1,5 +1,17 @@
 import styled from "styled-components"
 
+export const MobileContainer = styled.div`
+    @media (min-width: 900px){
+        display: none;
+    }
+`
+
+export const ChatButtonsMobile = styled.div`
+    @media (min-width: 900px) {
+        display: none;
+    }
+`
+
 export const AppContainer = styled.div`
     width: 100%;
 `
@@ -45,4 +57,11 @@ export const AppTitle = styled.div`
 `
 
 export const HomepageContainer = styled.div`
+`
+
+export const InboxMobile = styled.div`
+    @media (max-width: 900px) {
+        display: none;
+    }
+    display: flex;
 `

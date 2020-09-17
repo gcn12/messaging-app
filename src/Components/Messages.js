@@ -11,12 +11,14 @@ import { connect } from 'react-redux'
 // import { addQuantityLoadMessages } from '../Redux/actions/appActions'
 import firebase from '../firebase'
 import moment from 'moment'
+import Spinner from '../Spinner/Spinner'
 
 const mapStateToProps = (state) => ({
     messagesRedux: state.app.messagesRedux,
     emailRedux: state.app.emailRedux,
     currentChatIDRedux: state.app.currentChatIDRedux,
     newMessageOtherUserEmailRedux: state.app.newMessageOtherUserEmailRedux,
+    isMesssagesLoading: state.app.isMesssagesLoading,
 })
 
 class ShowHideMessages extends Component {
@@ -69,7 +71,11 @@ class ShowHideMessages extends Component {
     }
 }
 
+const ShowHideMessagesSpinner = Spinner(ShowHideMessages)
+
 class Messages extends Component {
+
+
     removeItem = (itemId) => {
         const itemRef = firebase.database().ref(`/messages/${this.props.currentChatIDRedux}/${itemId}`)
         itemRef.remove()
@@ -86,9 +92,10 @@ class Messages extends Component {
                     :
                     null
                 }
+                
                 {this.props.messagesRedux.map((message, index)=> {
                     return(
-                        <ShowHideMessages 
+                        <ShowHideMessagesSpinner 
                         messagesQuantity={this.props.messagesRedux.length}
                         index={index}
                         readTime={message.readTime}
@@ -102,7 +109,8 @@ class Messages extends Component {
                         sent={message.sent}
                         />
                     )
-                })}
+                })
+                }
             </MessagesContainer>
         )
     }

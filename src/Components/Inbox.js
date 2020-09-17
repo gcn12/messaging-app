@@ -139,7 +139,9 @@ class Inbox extends Component {
                         this.props.dispatch(addAllCurrentUserIDs(allUserIDs))
                     }
                     if(this.props.messagesRedux.length >=  messagesArray.length+requestArray.length){
-                        document.getElementById('scroll-here').scrollIntoView();
+                        if(document.getElementById('scroll-here')){
+                            document.getElementById('scroll-here').scrollIntoView();
+                        }
                     }
                     this.setState({
                         messages: messagesArray,

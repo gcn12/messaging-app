@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const NewMessageButton = styled.button`
     height: 35px;
-    width: 3vw;
+    width: 40px;
     cursor: pointer;
     background-color: rgb(50,50,50);
     color: white;

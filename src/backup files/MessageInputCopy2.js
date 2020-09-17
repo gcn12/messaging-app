@@ -1,11 +1,14 @@
 import React, { Component } from "react"
-import firebase from "../firebase"
+import firebase from "firebase"
 import { MessageInputContainer, 
     MessageInputArea, 
     MessageInputButton, 
 } from '../Styles/MessageInput.styles'
 import { connect } from 'react-redux'
-import { addCurrentChatID, addQuantityLoadMessages } from '../Redux/actions/appActions'
+import { 
+    // addCurrentChatID, 
+    addQuantityLoadMessages
+} from '../Redux/actions/appActions'
 
 const mapStateToProps = (state) => ({
     messagesRedux: state.app.messagesRedux,
@@ -27,10 +30,10 @@ class MessageInput extends Component {
 
     submitFunction = () => {
         let messageRef
-        let messageID
+        // let messageID
         let otherUserID
-        let otherUserDisplayName
-        let otherUserPhotoURL
+        // let otherUserDisplayName
+        // let otherUserPhotoURL
         let otherUserEmail
         const userIdRef = firebase.database().ref('users')
         userIdRef.once('value', (snapshot)=> {
@@ -38,56 +41,57 @@ class MessageInput extends Component {
             const userInfoArray = Object.keys(snapshot.val())
             otherUserID = userInfoArray[userIndex]
             if(userIndex!==-1){
-                otherUserDisplayName = snapshot.val()[otherUserID].name
-                otherUserPhotoURL = snapshot.val()[otherUserID].photoURL
+                // otherUserDisplayName = snapshot.val()[otherUserID].name
+                // otherUserPhotoURL = snapshot.val()[otherUserID].photoURL
                 otherUserEmail = snapshot.val()[otherUserID].email
             }
         })
         const addMessageID = firebase.database().ref(`users/${this.props.userID}/messages`)
         let addMessageIDToOtherUser = firebase.database().ref(`users/${otherUserID}/messages`) 
-        if(this.props.messagesRedux.length===0){
+        // if(this.props.messagesRedux.length===0){
             // this.props.newMessageRoute()
-            const itemRef = firebase.database().ref("messages")
-            const messageInfo = {
-                lastMessage: Date.now(),
-                user1Photo: otherUserPhotoURL,
-                user2Photo: this.props.userRedux.photoURL,
-                user1Email: otherUserEmail,
-                user2Email: this.props.userRedux.email,
-                user1: otherUserDisplayName,
-                user2: this.props.userRedux.displayName,
-                request: otherUserEmail,
-                requestStatus: 'pending',
-            }
-            itemRef.push(messageInfo)
-            .then((collectionRef)=>{
-                messageID = collectionRef.path.pieces_.pop()
-                this.props.dispatch(addCurrentChatID(messageID))
-                addMessageID.push({
-                    messageID: messageID,
-                    lastMessage: Date.now(),
-                })
+            // const itemRef = firebase.database().ref("messages")
+            // const messageInfo = {
+            //     lastMessage: Date.now(),
+            //     user1Photo: otherUserPhotoURL,
+            //     user2Photo: this.props.userRedux.photoURL,
+            //     user1Email: otherUserEmail,
+            //     user2Email: this.props.userRedux.email,
+            //     user1: otherUserDisplayName,
+            //     user2: this.props.userRedux.displayName,
+            //     request: otherUserEmail,
+            //     requestStatus: 'pending',
+            // }
+            // itemRef.push(messageInfo)
+            // .then((collectionRef)=>{
+            //     messageID = collectionRef.path.pieces_.pop()
+            //     this.props.dispatch(addCurrentChatID(messageID))
+            //     addMessageID.push({
+            //         messageID: messageID,
+            //         lastMessage: Date.now(),
+            //     })
 
-                addMessageIDToOtherUser.push({
-                    messageID: messageID,
-                    lastMessage: Date.now(),
-                })
+            //     addMessageIDToOtherUser.push({
+            //         messageID: messageID,
+            //         lastMessage: Date.now(),
+            //     })
 
-                messageRef = firebase.database().ref(`messages/${messageID}`)
-                messageRef.update({
-                    lastMessage: Date.now()
-                })
-                const message = {
-                    user: this.props.usernameState,
-                    message: this.state.message,
-                    read: false, 
-                    email: this.props.emailRedux,
-                    sent: Date.now(),
-                }
-                messageRef.push(message)
-                document.getElementById("message-input").value=""
-            })
-        }else{
+                // messageRef = firebase.database().ref(`messages/${messageID}`)
+                // messageRef.update({
+                //     lastMessage: Date.now()
+                // })
+                // const message = {
+                //     user: this.props.usernameState,
+                //     message: this.state.message,
+                //     read: false, 
+                //     email: this.props.emailRedux,
+                //     sent: Date.now(),
+                // }
+                // messageRef.push(message)
+                // this.props.getMessages(this.props.currentChatIDRedux)
+                // document.getElementById("message-input").value=""
+            // })
+        // }else{
             const noEmptyMessage = /^(?!\s*$).+/
             if(noEmptyMessage.test(this.state.message)){
                 messageRef = firebase.database().ref(`messages/${this.props.currentChatIDRedux}`)
@@ -98,6 +102,12 @@ class MessageInput extends Component {
                         otherUserEmail = messageRefValues[messageRefValues.length-2]
                     }else if (this.props.emailRedux!==messageRefValues[messageRefValues.length-5]){
                         otherUserEmail = messageRefValues[messageRefValues.length-5]
+                    }
+                    console.log(snapshot.val())
+                    if(snapshot.val().requestStatus==='created'){
+                        messageRef.update({
+                            requestStatus: 'pending'
+                        })
                     }
                 })
                 this.props.dispatch(addQuantityLoadMessages(1))
@@ -151,7 +161,7 @@ class MessageInput extends Component {
                 })
                 document.getElementById("message-input").value=""
             }
-        }
+        // }
     }
 
     submitFunctionAsync = () => {
@@ -221,4 +231,3 @@ class MessageInput extends Component {
 }
 
 export default connect(mapStateToProps)(MessageInput)
-

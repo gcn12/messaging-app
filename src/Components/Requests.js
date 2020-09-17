@@ -97,7 +97,9 @@ class Inbox extends Component {
                                     messagesArray.push(message.messageID)
                                 }
                             }
-                            document.getElementById('scroll-here').scrollIntoView();
+                            if(document.getElementById('scroll-here')){
+                                document.getElementById('scroll-here').scrollIntoView();
+                            }
                         })
                         this.props.dispatch(addAllCurrentUserEmails(allUserEmails))
                         this.props.dispatch(addAllCurrentUserIDs(allUserIDs))

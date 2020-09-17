@@ -1,8 +1,14 @@
 import styled from "styled-components"
 
 export const InboxContainerStyle = styled.div`
-width: 30vw;
-height: 86vh; 
+    @media (max-width: 900px) {
+        width: 100vw;
+        height: 86vh; 
+    }
+    @media (min-width: 900px) {
+        width: 400px;
+        height: 200px; 
+    }
 `
 
 export const TabsContainer = styled.div`

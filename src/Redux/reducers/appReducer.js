@@ -12,11 +12,14 @@ export const initialState = {
     messagesRedux: [],
     quantityLoadMessages: 24,
     preventScrollDown: false,
-    loadMessagesText: 'Load more messages'
+    loadMessagesText: 'Load more messages',
+    isMessagesLoading: true,
 }
 
 export default function appReducer(state=initialState, action) {
     switch(action.type){
+        case actions.IS_MESSAGES_LOADING:
+            return {...state, isMessagesLoading: action.payload}
         case actions.LOAD_MESSAGES_TEXT:
             return{...state, loadMessagesText: action.payload}
         case actions.PREVENT_SCROLL_DOWN:

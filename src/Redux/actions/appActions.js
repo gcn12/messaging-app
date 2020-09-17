@@ -10,6 +10,13 @@ export const ADD_MESSAGES = 'ADD_MESSAGES'
 export const ADD_QUANTITY_LOAD_MESSAGES = 'ADD_QUANTITY_LOAD_MESSAGES'
 export const PREVENT_SCROLL_DOWN = 'PREVENT_SCROLL_DOWN'
 export const LOAD_MESSAGES_TEXT = 'LOAD_MESSAGES_TEXT'
+export const IS_MESSAGES_LOADING = 'IS_MESSAGES_LOADING'
+
+export const isMessagesLoading = (isLoadingBoolean) => {
+    return(dispatch) => {
+        dispatch({type: IS_MESSAGES_LOADING, payload: isLoadingBoolean})
+    }
+}
 
 export const loadMessagesText = (text) => {
     return(dispatch)=> {
