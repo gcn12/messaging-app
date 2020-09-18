@@ -6,6 +6,7 @@ export const Button = styled.div`
     &:hover{
         cursor: pointer
     }
+    text-decoration: ${props=>(props.isChatState ? 'underline' : 'none')}
 `
 
 export const ButtonContainer = styled.div`

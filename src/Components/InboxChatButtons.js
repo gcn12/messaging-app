@@ -4,10 +4,10 @@ import { Button, ButtonContainer } from '../Styles/InboxChatButton.styles'
 const InboxChatButtons = (props) => {
     return(
         <ButtonContainer>
-            <Button onClick={()=>props.isChat(true, false)}>
+            <Button isChatState={!props.isChatState} onClick={()=>props.isChat(false)}>
                 Inbox
             </Button>
-            <Button onClick={()=>props.isChat(false, true)}>
+            <Button isChatState={props.isChatState} onClick={()=>props.isChat(true)}>
                 Chat
             </Button>
         </ButtonContainer>

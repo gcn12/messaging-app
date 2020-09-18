@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import "firebase/auth"
-// import "firebase/firestore"
 import InboxChatButtons from './InboxChatButtons'
 import firebase, {auth, provider} from "../firebase"
 import MessageContainer from "./MessageContainer"
@@ -30,6 +28,7 @@ import {
   preventScrollDown,
   loadMessagesText,
   isMessagesLoading,
+  addQuantityLoadMessages,
 } from '../Redux/actions/appActions'
 
 const mapStateToProps = (state) => ({
@@ -139,7 +138,7 @@ class App extends Component {
             })
           }
           if(this.props.messagesRedux){
-            if(this.props.messagesRedux.length+14===Object.keys(newState).length){
+            if((Object.keys(newState).length - this.props.messagesRedux.length) < 15){
               this.props.dispatch(loadMessagesText('No more messages'))
             }
           }
@@ -182,11 +181,16 @@ class App extends Component {
   }
 
   newMessageRoute = (input) => {
-    const route = async () => {
-      await this.props.dispatch(addCurrentChatID(input))
-      await this.getMessages(input)
+    if (input !== this.props.currentChatIDRedux){
+      const route = async () => {
+        await this.props.dispatch(addCurrentChatID(input))
+        await this.props.dispatch(addQuantityLoadMessages(24))
+        await this.getMessages(input)
+        await this.props.dispatch(loadMessagesText('Load more messages'))
+        await document.getElementById('scroll-here').scrollIntoView();
+      }
+      route()
     }
-    route()
   }
 
   test = () => {
@@ -224,7 +228,7 @@ class App extends Component {
           newMessageRoute={this.newMessageRoute}
           />
           <ChatButtonsMobile>
-            <InboxChatButtons isChat={this.isChat} />
+            <InboxChatButtons isChat={this.isChat} isChatState={this.state.isChat} />
           </ChatButtonsMobile>
           <InboxMessageContainer>
             <InboxMobile>

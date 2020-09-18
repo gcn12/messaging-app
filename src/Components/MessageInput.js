@@ -15,6 +15,7 @@ const mapStateToProps = (state) => ({
     newMessageOtherUserEmailRedux: state.app.newMessageOtherUserEmailRedux,
     userID: state.app.userID,
     userRedux: state.app.userRedux,
+    quantityLoadMessages: state.app.quantityLoadMessages
 })
  
 class MessageInput extends Component {
@@ -22,8 +23,6 @@ class MessageInput extends Component {
     state = {
         message: ''
     }
-
-
 
     submitFunction = () => {
         let messageRef
@@ -46,7 +45,6 @@ class MessageInput extends Component {
         const addMessageID = firebase.database().ref(`users/${this.props.userID}/messages`)
         let addMessageIDToOtherUser = firebase.database().ref(`users/${otherUserID}/messages`) 
         if(this.props.messagesRedux.length===0){
-            // this.props.newMessageRoute()
             const itemRef = firebase.database().ref("messages")
             const messageInfo = {
                 lastMessage: Date.now(),
@@ -60,19 +58,25 @@ class MessageInput extends Component {
                 requestStatus: 'pending',
             }
             itemRef.push(messageInfo)
-            .then((collectionRef)=>{
+            .then(collectionRef => {
                 messageID = collectionRef.path.pieces_.pop()
-                this.props.dispatch(addCurrentChatID(messageID))
+                
                 addMessageID.push({
                     messageID: messageID,
-                    lastMessage: Date.now(),
+                    // lastMessage: Date.now(),
+                }).then(collectionRef => {
+                    const addNewTime = firebase.database().ref(`users/${this.props.userID}/messages/${messageID = collectionRef.path.pieces_.pop()}`)
+                    setTimeout(()=> addNewTime.update({
+                        lastMessage: Date.now(),
+                    }), 10)
                 })
-
+                
                 addMessageIDToOtherUser.push({
                     messageID: messageID,
                     lastMessage: Date.now(),
                 })
-
+                
+                this.props.dispatch(addCurrentChatID(messageID))
                 messageRef = firebase.database().ref(`messages/${messageID}`)
                 messageRef.update({
                     lastMessage: Date.now()
@@ -86,6 +90,12 @@ class MessageInput extends Component {
                 }
                 messageRef.push(message)
                 document.getElementById("message-input").value=""
+                this.setState({
+                    message: ''
+                })
+                this.props.getMessages(messageID)
+                
+                
             })
         }else{
             const noEmptyMessage = /^(?!\s*$).+/
@@ -100,7 +110,7 @@ class MessageInput extends Component {
                         otherUserEmail = messageRefValues[messageRefValues.length-5]
                     }
                 })
-                this.props.dispatch(addQuantityLoadMessages(1))
+                this.props.dispatch(addQuantityLoadMessages(this.props.quantityLoadMessages + 1))
                 const message = {
                     user: this.props.usernameState,
                     message: this.state.message,
@@ -157,19 +167,22 @@ class MessageInput extends Component {
     submitFunctionAsync = () => {
         const runFunction = async () => {
             await this.submitFunction()
-            await this.props.getMessages(this.props.currentChatIDRedux)
+            // await this.props.getMessages(this.props.currentChatIDRedux)
         }
         runFunction()
     }
 
     submit = (e) => {
-        if (e.keyCode){
-            if (e.keyCode===13 && !e.shiftKey){
-                e.preventDefault()
-                this.submitFunctionAsync()
+        if(this.state.message.length>0){
+            if (e.keyCode){
+                if (e.keyCode===13 && !e.shiftKey){
+                    e.preventDefault()
+                    this.submitFunction()
+                }
+            }else{
+                // e.preventDefault()
+                this.submitFunction()
             }
-        }else{
-            this.submitFunctionAsync()
         }
     }
 
@@ -216,9 +229,8 @@ class MessageInput extends Component {
         ) 
     }
     componentDidMount(){
-        document.addEventListener("keypress", this.submit)
+        document.addEventListener("keydown", this.submit)
     }
 }
 
 export default connect(mapStateToProps)(MessageInput)
-

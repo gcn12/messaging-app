@@ -45,3 +45,7 @@ export const Options = styled.div`
 export const Seen = styled.div`
     font-size: 10px;
 `
+
+export const Timestamp = styled.div`
+    color: rgb(220,220,220);
+`

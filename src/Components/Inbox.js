@@ -14,7 +14,7 @@ import {
 } from "../Styles/Inbox.styles"
 import { ReactComponent as UnreadCircle } from "../UnreadCircle.svg"
 import { connect } from 'react-redux'
-import { addAllCurrentUserEmails, addAllCurrentUserIDs } from '../Redux/actions/appActions'
+import { addAllCurrentUserEmails, addAllCurrentUserIDs, isMessagesLoading } from '../Redux/actions/appActions'
 import { addRequestCount, isMessageRequest } from "../Redux/actions/requestsActions"
 import { addAllInfoInbox } from '../Redux/actions/inboxActions'
 
@@ -146,6 +146,8 @@ class Inbox extends Component {
                     this.setState({
                         messages: messagesArray,
                     })
+                }else{
+                    this.props.dispatch(isMessagesLoading(false))
                 }
             }   
         })
@@ -184,12 +186,14 @@ class Inbox extends Component {
     }
 
     inboxToMessagesAsync = (messageID) => {
-        const runFunction = async () => {
-            await this.props.dispatch(isMessageRequest(false))
-            await this.inboxToMessages(messageID)
-            await document.getElementById('scroll-here').scrollIntoView();
+        if(messageID !== this.props.currentChatIDRedux){
+            const runFunction = async () => {
+                await this.props.dispatch(isMessageRequest(false))
+                await this.inboxToMessages(messageID)
+                await document.getElementById('scroll-here').scrollIntoView();
+            }
+            runFunction()
         }
-        runFunction()
     } 
 
     getMessageSummariesAsync = () => {
@@ -202,14 +206,14 @@ class Inbox extends Component {
 
 
     componentDidMount(){
-        this.getMessageSummariesAsync()
+        this.props.dispatch(addRequestCount(0))
+        this.getMessageSummaries()
     }
     
     render() {
         return(
             <div>
                 {Object.values(this.props.allInfoInbox).map((message, index)=> {
-                    // console.log('return', message)
                     return(
                         <InboxContainer className="br3 pa3 ma2" isCurrentThread={this.props.currentChatIDRedux===this.state.messages[index] ? true : false} onClick={()=>this.inboxToMessagesAsync(this.state.messages[index])} key={index}>
                             <ImageContainer>

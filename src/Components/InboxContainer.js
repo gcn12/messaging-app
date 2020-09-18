@@ -9,6 +9,7 @@ import { TabsContainer,
     InboxTab,
     RequestsTab, 
 } from '../Styles/InboxContainer.styles'
+// import { ScrollStyles } from '../Styles/Scroll.styles'
 
 const mapStateToProps = (state) => ({
     isInboxTab: state.inbox.isInboxTab,
@@ -23,7 +24,7 @@ const InboxContainer = (props) => {
                 <RequestsTab isSelected={props.isInboxTab} onClick={()=>props.dispatch(isInboxTab(false))}>Requests ({props.requestCount})</RequestsTab>
             </TabsContainer>
             {props.isInboxTab ? 
-            <Scroll height="88vh">
+            <Scroll height={false}>
                 <InboxContainerStyle>
                     <Inbox 
                     newMessageRoute={props.newMessageRoute}
@@ -31,7 +32,7 @@ const InboxContainer = (props) => {
                 </InboxContainerStyle>
             </Scroll>
             :
-            <Scroll height="88vh">
+            <Scroll height={false}>
                 <InboxContainerStyle>
                     <Requests 
                     newMessageRoute={props.newMessageRoute}

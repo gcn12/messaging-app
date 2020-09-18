@@ -25,7 +25,7 @@ export default function appReducer(state=initialState, action) {
         case actions.PREVENT_SCROLL_DOWN:
             return{...state, preventScrollDown: action.payload}
         case actions.ADD_QUANTITY_LOAD_MESSAGES:
-            return{...state, quantityLoadMessages: state.quantityLoadMessages + action.payload}
+            return{...state, quantityLoadMessages: action.payload}
         case actions.ADD_MESSAGES:
             return {...state, messagesRedux: action.payload}
         case actions.ADD_ALL_CURRENT_USER_IDS:

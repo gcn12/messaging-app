@@ -1,14 +1,14 @@
 import React, { Component } from "react"
 import { UserMessageStyle,
-     NewMessageHeader, 
-     MessagesContainer, 
-     Options, 
-     MessageOptionsContainer,
-     Delete,
-     Seen,
+    NewMessageHeader, 
+    MessagesContainer, 
+    Options, 
+    MessageOptionsContainer,
+    Delete,
+    Seen,
+    Timestamp,
 } from  "../Styles/Messages.styles"
 import { connect } from 'react-redux'
-// import { addQuantityLoadMessages } from '../Redux/actions/appActions'
 import firebase from '../firebase'
 import moment from 'moment'
 
@@ -61,7 +61,7 @@ class ShowHideMessages extends Component {
                     :
                     null
                     }
-                    <div>{moment.unix(Number(this.props.sent)/1000).calendar()}</div>
+                    <Timestamp>{moment.unix(Number(this.props.sent)/1000).calendar()}</Timestamp>
                 </Options>
             </MessageOptionsContainer>
             : 
@@ -71,8 +71,6 @@ class ShowHideMessages extends Component {
 }
 
 class Messages extends Component {
-
-
     removeItem = (itemId) => {
         const itemRef = firebase.database().ref(`/messages/${this.props.currentChatIDRedux}/${itemId}`)
         itemRef.remove()

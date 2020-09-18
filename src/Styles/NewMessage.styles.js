@@ -11,7 +11,7 @@ export const NewMessageButton = styled.button`
 
 export const NewMessageInput = styled.input`
     height: 30px;
-    width: 200px;
+    width: 250px;
     cursor: pointer;
     background-color: gray;
     color: white;

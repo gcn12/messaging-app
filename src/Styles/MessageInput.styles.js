@@ -7,7 +7,7 @@ export const MessageInputContainer = styled.div`
 `
  
 export const MessageInputArea = styled.textarea`
-    height: 5vh;
+    height: 40px;
     width: 93%;
     background-color: grey;
     border: none;

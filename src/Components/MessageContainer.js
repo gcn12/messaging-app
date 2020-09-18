@@ -9,17 +9,21 @@ import {
 } from "../Styles/MessageContainer.styles"
 import { connect } from 'react-redux'
 import RequestButtons from "./RequestButtons"
-
 import { 
     addQuantityLoadMessages,
     preventScrollDown,
 } from '../Redux/actions/appActions'
+import WithSpinner from '../Spinner/Spinner'
+
+const MessagesSpinner = WithSpinner(Messages)
 
 const mapStateToProps = (state) => ({
     currentChatIDRedux: state.app.currentChatIDRedux,
     messagesRedux: state.app.messagesRedux,
     isMessageRequest: state.requests.isMessageRequest,
-    loadMessagesText: state.app.loadMessagesText
+    loadMessagesText: state.app.loadMessagesText,
+    isMessagesLoading: state.app.isMessagesLoading,
+    quantityLoadMessages: state.app.quantityLoadMessages,
 })
 
 class MessageContainer extends Component {
@@ -27,7 +31,7 @@ class MessageContainer extends Component {
     loadMoreMessages = () => {
         const runFunction = async () => {
             await this.props.dispatch(preventScrollDown(true))
-            await this.props.dispatch(addQuantityLoadMessages(15))
+            await this.props.dispatch(addQuantityLoadMessages(this.props.quantityLoadMessages + 15))
             await this.props.getMessages(this.props.currentChatIDRedux)
         }
         runFunction()
@@ -37,7 +41,7 @@ class MessageContainer extends Component {
         return(
             <div>
                 <MessageContainerStyles className="message-container">
-                    <Scroll height="79vh">
+                    <Scroll height={true}>
                     {this.props.messagesRedux.length > 23 ? 
                     <LoadContainer>
                         <LoadMore onClick={this.loadMoreMessages}>{this.props.loadMessagesText}</LoadMore>
@@ -45,7 +49,8 @@ class MessageContainer extends Component {
                     :
                     null
                     }
-                        <Messages 
+                        <MessagesSpinner
+                        isLoading={this.props.isMessagesLoading} 
                         removeItem={this.props.removeItem} 
                         user={this.props.usernameState}
                         />
