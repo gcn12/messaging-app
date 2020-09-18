@@ -182,6 +182,7 @@ class MessageInput extends Component {
             }else{
                 // e.preventDefault()
                 this.submitFunction()
+                document.getElementById("message-input").value=""
             }
         }
     }
