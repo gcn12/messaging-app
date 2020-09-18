@@ -13,8 +13,9 @@ export const MessageContainerStyles = styled.div`
         width: 700px;
         height: calc(100vh - 170px);
     }
-    // height: calc(81vh - 0);
-    
+    @media (max-height: 500px){
+        height: calc(100vh - 220px);
+    }
     border: 5px solid rgb(30,30,30);
 `
 
