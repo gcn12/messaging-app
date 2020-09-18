@@ -28,6 +28,7 @@ export const LogInButton = styled.button`
     border: none;
     height: 5vh;
     width: 20vw;
+    min-width: 200px;
     color: white;
     cursor: pointer;
     background-color: rgb(18, 208, 255);
@@ -36,7 +37,7 @@ export const LogInButton = styled.button`
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: 'Lato';
-    font-size: 2vw;
+    font-size:calc(12px + 1vw);
     &:hover {
         background-color: green;
     }
@@ -47,7 +48,7 @@ export const InboxMessageContainer = styled.div`
 `
 
 export const AppTitle = styled.div`
-    font-size: 6vw;
+    font-size: calc(8px + 3vw);
     color: white;
     font-family: 'Lato';
     position: absolute;
