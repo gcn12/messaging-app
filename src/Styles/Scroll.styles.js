@@ -10,6 +10,6 @@ export const ScrollStyles = styled.div`
         height: ${props=> (props.heightValue ? 'calc(102vh - 200px)' : 'calc(100vh - 100px)')};
     }
     @media (max-height: 500px) {
-        height: ${props=> (props.heightValue ? 'calc(102vh - 240px)' : 'calc(100vh - 100px)')};
+        height: ${props=> (props.heightValue ? 'calc(102vh - 270px)' : 'calc(100vh - 100px)')};
     }
 `

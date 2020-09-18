@@ -14,10 +14,10 @@ export const MessageContainerStyles = styled.div`
         height: calc(100vh - 170px);
     }
     @media (max-height: 500px){
-        height: calc(100vh - 220px);
+        height: calc(100vh - 250px);
     }
     border: 5px solid rgb(30,30,30);
-`
+` 
 
 export const LoadContainer = styled.div`
     display: flex;

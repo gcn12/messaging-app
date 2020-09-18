@@ -15,6 +15,7 @@ import { AppContainer,
   MobileContainer,
 } from "../Styles/App.styles"
 import { connect } from 'react-redux'
+import ErrorBoundary from './ErrorBoundary'
 import { 
   addUser,
   addUserID,
@@ -150,7 +151,9 @@ class App extends Component {
       this.props.dispatch(isMessagesLoading(false))
     })
     if(!this.props.preventScrollDown){
-      document.getElementById('scroll-here').scrollIntoView()
+      if (document.getElementById('scroll-here')){
+        document.getElementById('scroll-here').scrollIntoView()
+      }
       this.props.dispatch(preventScrollDown(false))
     }
   }
@@ -180,6 +183,12 @@ class App extends Component {
     })
   }
 
+  scrollDown = () => {
+    if (document.getElementById('scroll-here')){
+      document.getElementById('scroll-here').scrollIntoView()
+    }
+  }
+
   newMessageRoute = (input) => {
     if (input !== this.props.currentChatIDRedux){
       const route = async () => {
@@ -187,7 +196,7 @@ class App extends Component {
         await this.props.dispatch(addQuantityLoadMessages(24))
         await this.getMessages(input)
         await this.props.dispatch(loadMessagesText('Load more messages'))
-        await document.getElementById('scroll-here').scrollIntoView();
+        await this.scrollDown()
       }
       route()
     }
@@ -206,61 +215,63 @@ class App extends Component {
   render(){
     return (
       <AppContainer>
-        {this.props.userRedux ?
-          <LogOutButton className="br1 br3 pa2 ma1 dib" onClick={this.logout}>
-            Log Out | {this.state.username}
-          </LogOutButton>             
-          :
-          (
-            this.state.showLogInButton ? 
-          <HomepageContainer>
-            <AppTitle>Messaging App</AppTitle>
-            <LogInButton onClick={this.login}>LOG IN</LogInButton>              
-          </HomepageContainer>
+        <ErrorBoundary>
+          {this.props.userRedux ?
+            <LogOutButton className="br1 br3 pa2 ma1 dib" onClick={this.logout}>
+              Log Out | {this.state.username}
+            </LogOutButton>             
             :
-            null
-          )
-        }
-        {this.props.userRedux ? 
-        <div>
-          <NewMessage 
-          getMessages={this.getMessages}
-          newMessageRoute={this.newMessageRoute}
-          />
-          <ChatButtonsMobile>
-            <InboxChatButtons isChat={this.isChat} isChatState={this.state.isChat} />
-          </ChatButtonsMobile>
-          <InboxMessageContainer>
-            <InboxMobile>
-              <InboxContainer newMessageRoute={this.newMessageRoute} />
-              <MessageContainer 
-              newMessageRoute={this.newMessageRoute}
-              getMessages={this.getMessages}
-              usernameFunc={this.username}
-              usernameState={this.state.username}
-              removeItem={this.removeItem}
-              />
-            </InboxMobile>
-            <MobileContainer>
-              {this.state.isChat ? 
-              <MessageContainer 
-              newMessageRoute={this.newMessageRoute}
-              getMessages={this.getMessages}
-              usernameFunc={this.username}
-              usernameState={this.state.username}
-              removeItem={this.removeItem}
-              />
+            (
+              this.state.showLogInButton ? 
+            <HomepageContainer>
+              <AppTitle>Messaging App</AppTitle>
+              <LogInButton onClick={this.login}>LOG IN</LogInButton>              
+            </HomepageContainer>
               :
-              <InboxContainer 
-              newMessageRoute={this.newMessageRoute}
-              />
-              }
-            </MobileContainer>
-          </InboxMessageContainer>
-        </div>
-        :
-        null
-        }
+              null
+            )
+          }
+          {this.props.userRedux ? 
+          <div>
+            <NewMessage 
+            getMessages={this.getMessages}
+            newMessageRoute={this.newMessageRoute}
+            />
+            <ChatButtonsMobile>
+              <InboxChatButtons isChat={this.isChat} isChatState={this.state.isChat} />
+            </ChatButtonsMobile>
+            <InboxMessageContainer>
+              <InboxMobile>
+                <InboxContainer newMessageRoute={this.newMessageRoute} />
+                <MessageContainer 
+                newMessageRoute={this.newMessageRoute}
+                getMessages={this.getMessages}
+                usernameFunc={this.username}
+                usernameState={this.state.username}
+                removeItem={this.removeItem}
+                />
+              </InboxMobile>
+              <MobileContainer>
+                {this.state.isChat ? 
+                <MessageContainer 
+                newMessageRoute={this.newMessageRoute}
+                getMessages={this.getMessages}
+                usernameFunc={this.username}
+                usernameState={this.state.username}
+                removeItem={this.removeItem}
+                />
+                :
+                <InboxContainer 
+                newMessageRoute={this.newMessageRoute}
+                />
+                }
+              </MobileContainer>
+            </InboxMessageContainer>
+          </div>
+          :
+          null
+          }
+        </ErrorBoundary>
       </AppContainer>
     );
   }
