@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const MessageContainerStyles = styled.div`
     @media (max-width: 900px){
         width: 100vw;
-        height: calc(98vh - 205px);
+        height: calc(98vh - 235px);
     }
     @media (min-width: 900px){
         width: 55vw;
