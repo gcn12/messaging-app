@@ -7,11 +7,11 @@ export const MessageContainerStyles = styled.div`
     }
     @media (min-width: 900px){
         width: 55vw;
-        height: calc(100vh - 170px);
+        height: calc(100vh - 200px);
     }
     @media (min-width: 1100px){
         width: 700px;
-        height: calc(100vh - 170px);
+        height: calc(100vh - 200px);
     }
     @media (max-height: 500px){
         height: calc(100vh - 200px);
