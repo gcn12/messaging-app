@@ -7,14 +7,14 @@ export const MessageContainerStyles = styled.div`
     }
     @media (min-width: 900px){
         width: 55vw;
-        height: calc(100vh - 230px);
+        height: calc(100vh - 170px);
     }
     @media (min-width: 1100px){
         width: 700px;
-        height: calc(100vh - 230px);
+        height: calc(100vh - 170px);
     }
     @media (max-height: 500px){
-        height: calc(100vh - 300px);
+        height: calc(100vh - 200px);
     }
     border: 5px solid rgb(30,30,30);
 ` 
