@@ -88,7 +88,17 @@ class App extends Component {
   
   componentDidMount() {
     this.stayLoggedIn()
-    // this.addUserData("Fiona", "fiona@orange.com", "https://lh3.googleusercontent.com/a-/AOh14GiEWMCD6XAm34qOIe9A3LcvcHcPToUSdOroPHcb")
+    // this.addUserDataTemp("bob", "bill@cyan.com", "https://lh3.googleusercontent.com/a-/AOh14GiEWMCD6XAm34qOIe9A3LcvcHcPToUSdOroPHcb")
+  }
+
+  addUserDataTemp = (name, email, photoURL) => {
+    const userData = {
+      name: name,
+      email: email,
+      dateCreated: Date.now(),
+      photoURL: photoURL,
+    }
+    firebase.database().ref(`users`).push(userData)
   }
 
   addUserData = (name, email, uid, photoURL) => {
