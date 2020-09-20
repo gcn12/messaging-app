@@ -175,14 +175,19 @@ class MessageInput extends Component {
     submit = (e) => {
         if(this.state.message.length>0){
             if (e.keyCode){
+                this.clearUnread(this.props.currentChatIDRedux)
                 if (e.keyCode===13 && !e.shiftKey){
                     e.preventDefault()
                     this.submitFunction()
                 }
             }else{
-                // e.preventDefault()
+                e.preventDefault()
+                this.clearUnread(this.props.currentChatIDRedux)
                 this.submitFunction()
                 document.getElementById("message-input").value=""
+                if (document.getElementById('scroll-here')){
+                    document.getElementById('scroll-here').scrollIntoView()
+                }
             }
         }
     }
