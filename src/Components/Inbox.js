@@ -121,6 +121,7 @@ class Inbox extends Component {
                                 }
                                 if(snapshot.val().request===this.props.emailRedux&&snapshot.val().requestStatus==='pending'){
                                     requestArray.push(message.messageID)
+                                    this.props.dispatch(isMessagesLoading(false))
                                 }else{
                                     if(loopIndex>-1){
                                         if(this.props.currentChatIDRedux===null){
@@ -151,6 +152,7 @@ class Inbox extends Component {
                     this.props.dispatch(isMessagesLoading(false))
                 }
             }   
+            this.props.dispatch(isMessagesLoading(false))
         })
     } 
 

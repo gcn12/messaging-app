@@ -213,7 +213,6 @@ class App extends Component {
   }
 
   test = () => {
-    document.getElementById("message-input").value=""
   }
 
   isChat = (bool) => {
@@ -226,7 +225,7 @@ class App extends Component {
     return (
       <AppContainer>
         <ErrorBoundary>
-          <button onClick={this.test}>clear</button>
+          {/* <button onClick={this.test}>clear</button> */}
           {this.props.userRedux ?
             <LogOutButton className="br1 br3 pa2 ma1 dib" onClick={this.logout}>
               Log Out | {this.state.username}

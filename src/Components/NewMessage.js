@@ -37,27 +37,25 @@ class NewMessage extends Component {
                     })
                 }
             }else{
-                // if(this.props.allUserEmailsRedux){
-                    for(let email of this.props.allUserEmailsRedux) {
-                        if(this.state.email===this.props.emailRedux){
-                            break
-                        }else if(email===this.state.email){
-                            this.props.dispatch(addMessages([]))
-                            this.props.dispatch(addCurrentChatID('NEW MESSAGE'))
-                            this.props.dispatch(addNewMessageOtherUserEmail(this.state.email))
-                            this.setState({
-                                isUserExist: ""
-                            })
-                            break
-                        }else{
-                            this.setState({
-                                isUserExist: "user does not exist"
-                            })
-                        }
+                for(let email of this.props.allUserEmailsRedux) {
+                    if(this.state.email===this.props.emailRedux){
+                        break
+                    }else if(email===this.state.email){
+                        this.props.dispatch(addMessages([]))
+                        this.props.dispatch(addCurrentChatID('NEW MESSAGE'))
+                        this.props.dispatch(addNewMessageOtherUserEmail(this.state.email))
+                        this.setState({
+                            isUserExist: ""
+                        })
+                        document.getElementById("email-input").value=""
+                        break
+                    }else{
+                        this.setState({
+                            isUserExist: "user does not exist"
+                        })
                     }
-                // }
+                }
             }
-            document.getElementById("email-input").value=""
         }
     }
 

@@ -56,12 +56,12 @@ const RequestButtons = (props) => {
         })
         if (input==="accepted"){
             props.dispatch(isInboxTab(true))
-            props.dispatch(isMessageRequest(false))
             clearUnread(props.currentChatIDRedux)
         }else{
             props.dispatch(addMessages([]))
             props.dispatch(addCurrentChatID(null))
         }
+        props.dispatch(isMessageRequest(false))
     }
     return(
         <RequestButtonsContainer>
