@@ -56,6 +56,7 @@ class MessageInput extends Component {
                 user2: this.props.userRedux.displayName,
                 request: otherUserEmail,
                 requestStatus: 'pending',
+                messageCount: 1,
             }
             itemRef.push(messageInfo)
             .then(collectionRef => {
@@ -68,7 +69,7 @@ class MessageInput extends Component {
                     const addNewTime = firebase.database().ref(`users/${this.props.userID}/messages/${messageID = collectionRef.path.pieces_.pop()}`)
                     setTimeout(()=> addNewTime.update({
                         lastMessage: Date.now(),
-                    }), 10)
+                    }), 15)
                 })
                 
                 addMessageIDToOtherUser.push({
@@ -98,17 +99,23 @@ class MessageInput extends Component {
                 
             })
         }else{
+            // let messageCount
             const noEmptyMessage = /^(?!\s*$).+/
             if(noEmptyMessage.test(this.state.message)){
                 messageRef = firebase.database().ref(`messages/${this.props.currentChatIDRedux}`)
                 messageRef.once('value', (snapshot)=> {
-                    let messageRefValues = snapshot.val()
-                    messageRefValues = Object.values(messageRefValues)
+                    let messageRefValues = Object.values(snapshot.val())
                     if(this.props.emailRedux!==messageRefValues[messageRefValues.length-2]){
                         otherUserEmail = messageRefValues[messageRefValues.length-2]
                     }else if (this.props.emailRedux!==messageRefValues[messageRefValues.length-5]){
                         otherUserEmail = messageRefValues[messageRefValues.length-5]
                     }
+                    // messageCount = 
+                    // console.log(messageRefValues[messageRefValues.length-9])
+                    messageRef.update({
+                        lastMessage: Date.now(),
+                        messageCount: messageRefValues[messageRefValues.length-9] + 1
+                    })
                 })
                 this.props.dispatch(addQuantityLoadMessages(this.props.quantityLoadMessages + 1))
                 const message = {
@@ -119,9 +126,6 @@ class MessageInput extends Component {
                     sent: Date.now(),
                 }
                 messageRef.push(message)
-                messageRef.update({
-                    lastMessage: Date.now()
-                })
                 const messageRefTest = firebase.database().ref('users')
                 messageRefTest.once('value', (snapshot)=> {
                     for (let userID in snapshot.val()){
@@ -160,6 +164,7 @@ class MessageInput extends Component {
                     message: ''
                 })
                 document.getElementById("message-input").value=""
+                this.props.getMessages(this.props.currentChatIDRedux)
             }
         }
     }
@@ -175,8 +180,8 @@ class MessageInput extends Component {
     submit = (e) => {
         if(this.state.message.length>0){
             if (e.keyCode){
-                this.clearUnread(this.props.currentChatIDRedux)
                 if (e.keyCode===13 && !e.shiftKey){
+                    this.clearUnread(this.props.currentChatIDRedux)
                     e.preventDefault()
                     this.submitFunction()
                 }
@@ -205,8 +210,8 @@ class MessageInput extends Component {
                 let messages = snapshot.val()
                 let messageKeys = Object.keys(messages)
                 let messageValues = Object.values(messages)
-                messageKeys.reverse().splice(0,9)
-                messageValues.reverse().splice(0,9)
+                messageKeys.reverse().splice(0,10)
+                messageValues.reverse().splice(0,10)
                 let valueIndex = 0
                 for (let value of messageValues) {
                     if(value.read===false){

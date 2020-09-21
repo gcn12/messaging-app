@@ -149,7 +149,7 @@ class App extends Component {
             })
           }
           if(this.props.messagesRedux){
-            if((Object.keys(newState).length - this.props.messagesRedux.length) < 15){
+            if(items.messageCount === (newState.length-10)){
               this.props.dispatch(loadMessagesText('No more messages'))
             }
           }
@@ -213,7 +213,7 @@ class App extends Component {
   }
 
   test = () => {
-    console.log(this.state.allUserEmails)
+    document.getElementById("message-input").value=""
   }
 
   isChat = (bool) => {
@@ -226,6 +226,7 @@ class App extends Component {
     return (
       <AppContainer>
         <ErrorBoundary>
+          <button onClick={this.test}>clear</button>
           {this.props.userRedux ?
             <LogOutButton className="br1 br3 pa2 ma1 dib" onClick={this.logout}>
               Log Out | {this.state.username}

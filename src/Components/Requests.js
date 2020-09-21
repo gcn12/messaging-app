@@ -76,7 +76,7 @@ class Inbox extends Component {
                                 } else if(otherUserInfo[otherUserInfo.length-5]===userID.email){
                                     allUserEmails.push(otherUserInfo[otherUserInfo.length-2])
                                 }
-                                lastMessage = lastMessage[lastMessage.length-10]
+                                lastMessage = lastMessage[lastMessage.length-11]
                                 if(lastMessage){
                                     lastMessage = Object.values(lastMessage)[1]
                                     if(lastMessage.length+lastMessage.split(" ").length > 31){

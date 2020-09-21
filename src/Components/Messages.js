@@ -18,6 +18,7 @@ const mapStateToProps = (state) => ({
     currentChatIDRedux: state.app.currentChatIDRedux,
     newMessageOtherUserEmailRedux: state.app.newMessageOtherUserEmailRedux,
     isMesssagesLoading: state.app.isMesssagesLoading,
+    quantityLoadMessages: state.app.quantityLoadMessages,
 })
 
 class ShowHideMessages extends Component {
@@ -26,9 +27,15 @@ class ShowHideMessages extends Component {
     }
 
     show = () => {
-        this.setState({
-            showOptions: true
-        })
+        if(this.state.showOptions){
+            this.setState({
+                showOptions: false
+            })
+        }else{
+            this.setState({
+                showOptions: true
+            })
+        }
     }
 
     hide = () => {
@@ -45,7 +52,7 @@ class ShowHideMessages extends Component {
                     {this.props.itemID!=="lastMessage"&&this.props.itemID!=="user1"&&this.props.itemID!=="user2"&&this.props.itemID!=="user2Photo"&&this.props.itemID!=="user1Photo"&&this.props.itemID!=="user2Email"&&this.props.itemID!=="user1Email" ? 
                     <div>
                         {this.props.message}
-                        {(this.props.index===this.props.messagesQuantity-10)&&(this.props.readTime>0)&&(this.props.email===this.props.emailRedux) ? 
+                        {(this.props.index===this.props.messagesQuantity-11)&&(this.props.readTime>0)&&(this.props.email===this.props.emailRedux) ? 
                         <Seen>Seen {moment.unix(this.props.readTime/1000).calendar().toLowerCase()}</Seen>
                         :
                         null
@@ -71,9 +78,17 @@ class ShowHideMessages extends Component {
 }
 
 class Messages extends Component {
+
     removeItem = (itemId) => {
         const itemRef = firebase.database().ref(`/messages/${this.props.currentChatIDRedux}/${itemId}`)
         itemRef.remove()
+        const messageCountRef = firebase.database().ref(`messages/${this.props.currentChatIDRedux}`)
+        messageCountRef.once('value', (snapshot) => {
+            let messageCount = snapshot.val().messageCount
+            messageCountRef.update({
+                messageCount: messageCount - 1
+            })
+        })
     }
 
     render() {

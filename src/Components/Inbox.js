@@ -68,9 +68,10 @@ class Inbox extends Component {
                                 let infoObject = {}
                                 lastMessage = Object.values(snapshot.val())
                                 let unreadMessages = Object.values(snapshot.val())
-                                unreadMessages.reverse().splice(0,9)
+                                unreadMessages.reverse().splice(0,10)
                                 let unreadCount = 0
                                 for (let unreadMessage of unreadMessages) {
+                                    console.log(unreadMessage)
                                     if(unreadMessage.read===false){
                                         if(unreadMessage.email!==userID.email){
                                             unreadCount++
@@ -97,7 +98,7 @@ class Inbox extends Component {
                                 } else {
                                     allUserEmails.push(otherUserInfo[otherUserInfo.length-2])
                                 }
-                                lastMessage = lastMessage[lastMessage.length-10]
+                                lastMessage = lastMessage[lastMessage.length-11]
                                 if(lastMessage){
                                     lastMessage = Object.values(lastMessage)[1]
                                     if(lastMessage.length+lastMessage.split(" ").length > 31){
