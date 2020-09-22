@@ -199,17 +199,16 @@ class App extends Component {
     }
   }
 
-  newMessageRoute = (input, fileName) => {
-    console.log(fileName)
+  newMessageRoute = (input) => {
     if (input !== this.props.currentChatIDRedux){
-      const route = async () => {
+      const route = async (input) => {
         await this.props.dispatch(addCurrentChatID(input))
         await this.props.dispatch(addQuantityLoadMessages(24))
         await this.getMessages(input)
         await this.props.dispatch(loadMessagesText('Load more messages'))
         await this.scrollDown()
       }
-      route()
+      route(input)
     }
   }
 

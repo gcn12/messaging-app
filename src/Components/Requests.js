@@ -11,7 +11,10 @@ import {
     InboxUser,
 } from "../Styles/Inbox.styles"
 import { connect } from 'react-redux'
-import { addAllCurrentUserEmails, addAllCurrentUserIDs } from '../Redux/actions/appActions'
+import { addAllCurrentUserEmails, 
+    addAllCurrentUserIDs, 
+    // addCurrentChatID 
+} from '../Redux/actions/appActions'
 import { isMessageRequest } from "../Redux/actions/requestsActions"
 
 const mapStateToProps = (state) => ({

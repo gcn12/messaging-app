@@ -16,7 +16,7 @@ import { ReactComponent as UnreadCircle } from "../UnreadCircle.svg"
 import { connect } from 'react-redux'
 import { addAllCurrentUserEmails, addAllCurrentUserIDs, isMessagesLoading } from '../Redux/actions/appActions'
 import { addRequestCount, isMessageRequest } from "../Redux/actions/requestsActions"
-import { addAllInfoInbox } from '../Redux/actions/inboxActions'
+import { addAllInfoInbox, isLoop } from '../Redux/actions/inboxActions'
 
 const mapStateToProps = (state) => ({
     currentChatIDRedux: state.app.currentChatIDRedux,
@@ -26,6 +26,7 @@ const mapStateToProps = (state) => ({
     allInfoInbox: state.inbox.allInfoInbox,
     messagesRedux: state.app.messagesRedux,
     userRedux: state.app.userRedux,
+    isLoop: state.inbox.isLoop,
 })
 
 const compareLastMessageTimestamp = (a, b) => {
@@ -59,9 +60,8 @@ class Inbox extends Component {
                     let allUserIDs = []
                     let allUserEmails = []
                     let finalInfoObject = {}
+                    let continueLoop = true
                     for (let message of messageInfo){
-                        console.log(message)
-                        let continueLoop = true
                         const messageSummary = firebase.database().ref(`messages/${message.messageID}`)
                         let lastMessage 
                         messageSummary.on('value', (snapshot)=> {
@@ -121,12 +121,14 @@ class Inbox extends Component {
                                 }
                                 if(snapshot.val().request===this.props.emailRedux&&snapshot.val().requestStatus==='pending'){
                                     requestArray.push(message.messageID)
-                                    this.props.dispatch(isMessagesLoading(false))
                                 }else{
                                     if(continueLoop){
+                                    // if(this.props.isLoop){
+                                        console.log(this.props.currentChatIDRedux)
                                         if(this.props.currentChatIDRedux===null){
                                             if(snapshot.val().requestStatus!=='rejected'||snapshot.val().request!==this.props.emailRedux){
-                                                this.props.newMessageRoute(message.messageID, 'inbox.js line 129')
+                                                this.props.newMessageRoute(message.messageID)
+                                                this.props.dispatch(isLoop(false))
                                                 continueLoop = false
                                             }
                                         }
@@ -134,6 +136,7 @@ class Inbox extends Component {
                                 }
                                 this.props.dispatch(addRequestCount(requestArray.length))
                             }
+                            this.props.dispatch(isMessagesLoading(false))
                         })
                         this.props.dispatch(addAllCurrentUserEmails(allUserEmails))
                         this.props.dispatch(addAllCurrentUserIDs(allUserIDs))
@@ -160,7 +163,7 @@ class Inbox extends Component {
     }
 
     inboxToMessages = (messageID) => {
-        this.props.newMessageRoute(messageID, 'inbox.js line 163')
+        this.props.newMessageRoute(messageID)
         const messageRef = firebase.database().ref(`messages/${messageID}`)
         messageRef.on('value', (snapshot) => {
             if(snapshot.val()){
@@ -197,18 +200,11 @@ class Inbox extends Component {
         }
     } 
 
-    getMessageSummariesAsync = () => {
-        const runFunction = async () => {
-            await this.props.dispatch(addRequestCount(0))
-            await this.getMessageSummaries()
-        }
-        runFunction()
-    }
-
-
     componentDidMount(){
+        this.props.dispatch(isLoop(true))
         this.props.dispatch(addRequestCount(0))
-        this.getMessageSummaries()
+        setTimeout(()=> this.getMessageSummaries(), 100)
+        
     }
     
     render() {

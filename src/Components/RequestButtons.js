@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import firebase from '../firebase'
 import { connect } from 'react-redux'
-import { isInboxTab } from '../Redux/actions/inboxActions'
+import { isInboxTab, isLoop } from '../Redux/actions/inboxActions'
 import { isMessageRequest } from '../Redux/actions/requestsActions'
 import { addMessages, addCurrentChatID } from '../Redux/actions/appActions'
 import { RequestButtonsContainer,
@@ -17,9 +17,9 @@ const mapStateToProps = (state) => ({
 })
 
 
-const RequestButtons = (props) => {
-    const clearUnread = (messageID) => {
-        if(props.messagesRedux.length>0){
+class RequestButtons extends Component {
+    clearUnread = (messageID) => {
+        if(this.props.messagesRedux.length>0){
             const messageRef = firebase.database().ref(`messages/${messageID}`)
             messageRef.once('value', (snapshot) => {
                 let messages = snapshot.val()
@@ -30,7 +30,7 @@ const RequestButtons = (props) => {
                 let valueIndex = 0
                 for (let value of messageValues) {
                     if(value.read===false){
-                        if(value.email !== props.emailRedux){
+                        if(value.email !== this.props.emailRedux){
                             const firebaseMessageRef = firebase.database().ref(`messages/${messageID}/${messageKeys[valueIndex]}`)
                             firebaseMessageRef.update({
                                 read: true,
@@ -45,30 +45,37 @@ const RequestButtons = (props) => {
             })
         }
     }
-    const accept = (input) => {
-        const acceptRef = firebase.database().ref(`messages/${props.currentChatIDRedux}`)
+    accept = (input) => {
+        const acceptRef = firebase.database().ref(`messages/${this.props.currentChatIDRedux}`)
         acceptRef.update({
-            requestStatus: input
+            requestStatus: input,
+            lastMessage: Date.now()
         })
-        const lastUpdatedRef = firebase.database().ref(`users/${props.userID}`)
-        lastUpdatedRef.update({
-            lastUpdated: Date.now()
-        })
+        // const lastUpdatedRef = firebase.database().ref(`users/${this.props.userID}`)
+        // lastUpdatedRef.update({
+        //     lastUpdated: Date.now()
+        // })
         if (input==="accepted"){
-            clearUnread(props.currentChatIDRedux)
-            props.dispatch(isInboxTab(true))
+            this.props.dispatch(isLoop(true))
+            this.clearUnread(this.props.currentChatIDRedux)
+            this.props.dispatch(isInboxTab(true))
+            //this.props.dispatch(addCurrentChatID(null))
         }else{
-            props.dispatch(addMessages([]))
-            props.dispatch(addCurrentChatID(null))
+            this.props.dispatch(addMessages([]))
+            this.props.dispatch(addCurrentChatID(null))
         }
-        props.dispatch(isMessageRequest(false))
+        this.props.dispatch(isMessageRequest(false))
     }
-    return(
-        <RequestButtonsContainer>
-            <DeleteButton onClick={()=>accept('rejected')} className='br2'>Delete</DeleteButton>
-            <AcceptButton onClick={()=>accept('accepted')} className='br2'>Accept</AcceptButton>
-        </RequestButtonsContainer>
-    )
+
+    render() {
+        return(
+            <RequestButtonsContainer>
+                <DeleteButton onClick={()=>this.accept('rejected')} className='br2'>Delete</DeleteButton>
+                <AcceptButton onClick={()=>this.accept('accepted')} className='br2'>Accept</AcceptButton>
+            </RequestButtonsContainer>
+        )
+    }
+
 }
 
 export default connect(mapStateToProps)(RequestButtons)
