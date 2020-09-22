@@ -248,7 +248,7 @@ class MessageInput extends Component {
         return(
             <MessageInputContainer>
                 <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
-                <MessageInputButton onClick={this.submitClick}>Send</MessageInputButton>
+                <MessageInputButton onClick={this.submit}>Send</MessageInputButton>
             </MessageInputContainer>
         ) 
     }
