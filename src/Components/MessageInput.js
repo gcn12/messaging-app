@@ -170,14 +170,6 @@ class MessageInput extends Component {
         }
     }
 
-    submitFunctionAsync = () => {
-        const runFunction = async () => {
-            await this.submitFunction()
-            // await this.props.getMessages(this.props.currentChatIDRedux)
-        }
-        runFunction()
-    }
-
     submit = (e) => {
         if(this.state.message.length>0){
             if (e.keyCode){
@@ -199,12 +191,12 @@ class MessageInput extends Component {
     }
 
     submit2 = () => {
-        this.clearUnread(this.props.currentChatIDRedux)
+        // this.clearUnread(this.props.currentChatIDRedux)
         this.submitFunction()
         // if (document.getElementById('scroll-here')){
         //     document.getElementById('scroll-here').scrollIntoView()
         // }
-        document.getElementById("messageInput").value = ""
+        document.getElementById("messageInput").value=""
     }
 
     handleMessageChange = (e) => {
