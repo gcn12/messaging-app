@@ -190,24 +190,12 @@ class MessageInput extends Component {
                 e.preventDefault()
                 this.clearUnread(this.props.currentChatIDRedux)
                 this.submitFunction()
-                if (document.getElementById('scroll-here')){
-                    document.getElementById('scroll-here').scrollIntoView()
-                }
+                // if (document.getElementById('scroll-here')){
+                //     document.getElementById('scroll-here').scrollIntoView()
+                // }
             }
         }
         document.getElementById("messageInput").value=""
-    }
-
-    submitClick = () => {
-        // document.getElementById("messageInput").value=""
-        if(this.state.message.length>0){
-            this.preventDefault()
-            this.clearUnread(this.props.currentChatIDRedux)
-            this.submitFunction()
-            if (document.getElementById('scroll-here')){
-                document.getElementById('scroll-here').scrollIntoView()
-            }
-        }
     }
 
     handleMessageChange = (e) => {

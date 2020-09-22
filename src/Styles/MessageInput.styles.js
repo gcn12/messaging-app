@@ -14,7 +14,7 @@ export const MessageInputArea = styled.input`
     color: white;
 `
  
-export const MessageInputButton = styled.div`
+export const MessageInputButton = styled.button`
     border: solid 1px rgb(50,50,50);
     background-color: rgb(50,50,50);
     color: white;
