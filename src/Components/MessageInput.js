@@ -92,7 +92,7 @@ class MessageInput extends Component {
                     sent: Date.now(),
                 }
                 messageRef.push(message)
-                document.getElementById("messageInput").value=""
+                // document.getElementById("messageInput").value=""
                 this.setState({
                     message: ''
                 })
@@ -165,7 +165,7 @@ class MessageInput extends Component {
                     message: ''
                 })
                 this.props.getMessages(this.props.currentChatIDRedux)
-                document.getElementById("messageInput").value=""
+                // document.getElementById("messageInput").value=""
             }
         }
     }
@@ -199,7 +199,7 @@ class MessageInput extends Component {
     }
 
     submitClick = () => {
-        document.getElementById("messageInput").value=""
+        // document.getElementById("messageInput").value=""
         if(this.state.message.length>0){
             this.preventDefault()
             this.clearUnread(this.props.currentChatIDRedux)
