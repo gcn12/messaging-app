@@ -190,11 +190,23 @@ class MessageInput extends Component {
                 e.preventDefault()
                 this.clearUnread(this.props.currentChatIDRedux)
                 this.submitFunction()
-                document.getElementById("messageInput").value=""
                 if (document.getElementById('scroll-here')){
                     document.getElementById('scroll-here').scrollIntoView()
                 }
             }
+        }
+        document.getElementById("messageInput").value=""
+    }
+
+    submitClick = () => {
+        if(this.state.message.length>0){
+            this.preventDefault()
+            this.clearUnread(this.props.currentChatIDRedux)
+            this.submitFunction()
+            if (document.getElementById('scroll-here')){
+                document.getElementById('scroll-here').scrollIntoView()
+            }
+            document.getElementById("messageInput").value=""
         }
     }
 
@@ -236,7 +248,7 @@ class MessageInput extends Component {
         return(
             <MessageInputContainer>
                 <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
-                <MessageInputButton onClick={this.submit}>Send</MessageInputButton>
+                <MessageInputButton onClick={this.submitClick}>Send</MessageInputButton>
             </MessageInputContainer>
         ) 
     }
