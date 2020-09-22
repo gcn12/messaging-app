@@ -194,8 +194,8 @@ class MessageInput extends Component {
                 //     document.getElementById('scroll-here').scrollIntoView()
                 // }
             }
+            document.getElementById("messageInput").value = ""
         }
-        document.getElementById("messageInput").value=""
     }
 
     handleMessageChange = (e) => {
@@ -235,7 +235,8 @@ class MessageInput extends Component {
     render(){
         return(
             <MessageInputContainer>
-                <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
+                <MessageInputArea className="br3" id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
+                {/* <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea> */}
                 <MessageInputButton onClick={this.submit}>Send</MessageInputButton>
             </MessageInputContainer>
         ) 
