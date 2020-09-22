@@ -177,6 +177,7 @@ class MessageInput extends Component {
                     this.clearUnread(this.props.currentChatIDRedux)
                     e.preventDefault()
                     this.submitFunction()
+                    document.getElementById("messageInput").value = ""
                 }
             }else{
                 e.preventDefault()
@@ -185,19 +186,19 @@ class MessageInput extends Component {
                 // if (document.getElementById('scroll-here')){
                 //     document.getElementById('scroll-here').scrollIntoView()
                 // }
+                document.getElementById("messageInput").value = ""
             }
-            document.getElementById("messageInput").value = ""
         }
     }
 
-    submit2 = () => {
-        // this.clearUnread(this.props.currentChatIDRedux)
-        this.submitFunction()
-        // if (document.getElementById('scroll-here')){
-        //     document.getElementById('scroll-here').scrollIntoView()
-        // }
-        document.getElementById("messageInput").value=""
-    }
+    // submit2 = () => {
+    //     this.clearUnread(this.props.currentChatIDRedux)
+    //     this.submitFunction()
+    //     // if (document.getElementById('scroll-here')){
+    //     //     document.getElementById('scroll-here').scrollIntoView()
+    //     // }
+    //     document.getElementById("messageInput").value=""
+    // }
 
     handleMessageChange = (e) => {
         this.setState({
@@ -238,7 +239,7 @@ class MessageInput extends Component {
             <MessageInputContainer>
                 <MessageInputArea className="br3" id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
                 {/* <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea> */}
-                <MessageInputButton onClick={this.submit2}>Send</MessageInputButton>
+                <MessageInputButton onClick={this.submit}>Send</MessageInputButton>
             </MessageInputContainer>
         ) 
     }
