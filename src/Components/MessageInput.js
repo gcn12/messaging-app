@@ -198,6 +198,16 @@ class MessageInput extends Component {
         }
     }
 
+    submit2 = () => {
+        e.preventDefault()
+        this.clearUnread(this.props.currentChatIDRedux)
+        this.submitFunction()
+        // if (document.getElementById('scroll-here')){
+        //     document.getElementById('scroll-here').scrollIntoView()
+        // }
+        document.getElementById("messageInput").value = ""
+    }
+
     handleMessageChange = (e) => {
         this.setState({
           message: e.target.value
@@ -237,12 +247,12 @@ class MessageInput extends Component {
             <MessageInputContainer>
                 <MessageInputArea className="br3" id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
                 {/* <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea> */}
-                <MessageInputButton onClick={this.submit}>Send</MessageInputButton>
+                <MessageInputButton onClick={this.submit2}>Send</MessageInputButton>
             </MessageInputContainer>
         ) 
     }
     componentDidMount(){
-        document.addEventListener("keydown", this.submit)
+        // document.addEventListener("keydown", this.submit)
     }
 }
 
