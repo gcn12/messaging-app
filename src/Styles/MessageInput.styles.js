@@ -6,7 +6,7 @@ export const MessageInputContainer = styled.div`
     width: 100%;
 `
  
-export const MessageInputArea = styled.textarea`
+export const MessageInputArea = styled.input`
     height: 40px;
     width: 93%;
     background-color: grey;
