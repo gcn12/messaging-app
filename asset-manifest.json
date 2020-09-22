@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/messaging-app/static/css/main.852f4b47.chunk.css",
-    "main.js": "/messaging-app/static/js/main.eaa3c554.chunk.js",
-    "main.js.map": "/messaging-app/static/js/main.eaa3c554.chunk.js.map",
+    "main.js": "/messaging-app/static/js/main.35e745b4.chunk.js",
+    "main.js.map": "/messaging-app/static/js/main.35e745b4.chunk.js.map",
     "runtime-main.js": "/messaging-app/static/js/runtime-main.9137829c.js",
     "runtime-main.js.map": "/messaging-app/static/js/runtime-main.9137829c.js.map",
     "static/css/2.3c03f26f.chunk.css": "/messaging-app/static/css/2.3c03f26f.chunk.css",
     "static/js/2.25b53cdd.chunk.js": "/messaging-app/static/js/2.25b53cdd.chunk.js",
     "static/js/2.25b53cdd.chunk.js.map": "/messaging-app/static/js/2.25b53cdd.chunk.js.map",
     "index.html": "/messaging-app/index.html",
-    "precache-manifest.5f269b0bcb2662a04d9101944cd2b8f1.js": "/messaging-app/precache-manifest.5f269b0bcb2662a04d9101944cd2b8f1.js",
+    "precache-manifest.e91b53414f8dc1749ac23fd0d7f61a88.js": "/messaging-app/precache-manifest.e91b53414f8dc1749ac23fd0d7f61a88.js",
     "service-worker.js": "/messaging-app/service-worker.js",
     "static/css/2.3c03f26f.chunk.css.map": "/messaging-app/static/css/2.3c03f26f.chunk.css.map",
     "static/css/main.852f4b47.chunk.css.map": "/messaging-app/static/css/main.852f4b47.chunk.css.map",
@@ -22,6 +22,6 @@
     "static/css/2.3c03f26f.chunk.css",
     "static/js/2.25b53cdd.chunk.js",
     "static/css/main.852f4b47.chunk.css",
-    "static/js/main.eaa3c554.chunk.js"
+    "static/js/main.35e745b4.chunk.js"
   ]
 }
