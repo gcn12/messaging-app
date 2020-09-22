@@ -199,7 +199,7 @@ class MessageInput extends Component {
     }
 
     submit2 = () => {
-        e.preventDefault()
+        this.preventDefault()
         this.clearUnread(this.props.currentChatIDRedux)
         this.submitFunction()
         // if (document.getElementById('scroll-here')){
