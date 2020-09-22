@@ -60,7 +60,8 @@ class Inbox extends Component {
                     let allUserEmails = []
                     let finalInfoObject = {}
                     for (let message of messageInfo){
-                        let loopIndex = 0
+                        console.log(message)
+                        let continueLoop = true
                         const messageSummary = firebase.database().ref(`messages/${message.messageID}`)
                         let lastMessage 
                         messageSummary.on('value', (snapshot)=> {
@@ -71,7 +72,6 @@ class Inbox extends Component {
                                 unreadMessages.reverse().splice(0,10)
                                 let unreadCount = 0
                                 for (let unreadMessage of unreadMessages) {
-                                    console.log(unreadMessage)
                                     if(unreadMessage.read===false){
                                         if(unreadMessage.email!==userID.email){
                                             unreadCount++
@@ -123,15 +123,13 @@ class Inbox extends Component {
                                     requestArray.push(message.messageID)
                                     this.props.dispatch(isMessagesLoading(false))
                                 }else{
-                                    if(loopIndex>-1){
+                                    if(continueLoop){
                                         if(this.props.currentChatIDRedux===null){
                                             if(snapshot.val().requestStatus!=='rejected'||snapshot.val().request!==this.props.emailRedux){
-                                                this.props.newMessageRoute(message.messageID)
-                                                loopIndex = -1 
+                                                this.props.newMessageRoute(message.messageID, 'inbox.js line 129')
+                                                continueLoop = false
                                             }
                                         }
-                                    }else{
-                                        loopIndex++
                                     }
                                 }
                                 this.props.dispatch(addRequestCount(requestArray.length))
@@ -162,7 +160,7 @@ class Inbox extends Component {
     }
 
     inboxToMessages = (messageID) => {
-        this.props.newMessageRoute(messageID)
+        this.props.newMessageRoute(messageID, 'inbox.js line 163')
         const messageRef = firebase.database().ref(`messages/${messageID}`)
         messageRef.on('value', (snapshot) => {
             if(snapshot.val()){

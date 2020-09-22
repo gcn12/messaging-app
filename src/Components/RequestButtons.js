@@ -55,8 +55,8 @@ const RequestButtons = (props) => {
             lastUpdated: Date.now()
         })
         if (input==="accepted"){
-            props.dispatch(isInboxTab(true))
             clearUnread(props.currentChatIDRedux)
+            props.dispatch(isInboxTab(true))
         }else{
             props.dispatch(addMessages([]))
             props.dispatch(addCurrentChatID(null))

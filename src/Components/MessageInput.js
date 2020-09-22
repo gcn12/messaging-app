@@ -6,6 +6,7 @@ import { MessageInputContainer,
 } from '../Styles/MessageInput.styles'
 import { connect } from 'react-redux'
 import { addCurrentChatID, addQuantityLoadMessages } from '../Redux/actions/appActions'
+import { isInboxTab } from '../Redux/actions/inboxActions'
 
 const mapStateToProps = (state) => ({
     messagesRedux: state.app.messagesRedux,
@@ -66,7 +67,8 @@ class MessageInput extends Component {
                     messageID: messageID,
                     // lastMessage: Date.now(),
                 }).then(collectionRef => {
-                    const addNewTime = firebase.database().ref(`users/${this.props.userID}/messages/${messageID = collectionRef.path.pieces_.pop()}`)
+                    const addNewTime = firebase.database().ref(`users/${this.props.userID}/messages/${collectionRef.path.pieces_.pop()}`)
+                    // const addNewTime = firebase.database().ref(`users/${this.props.userID}/messages/${messageID = collectionRef.path.pieces_.pop()}`)
                     setTimeout(()=> addNewTime.update({
                         lastMessage: Date.now(),
                     }), 15)
@@ -95,11 +97,9 @@ class MessageInput extends Component {
                     message: ''
                 })
                 this.props.getMessages(messageID)
-                
-                
+                this.props.dispatch(isInboxTab(true))  
             })
         }else{
-            // let messageCount
             const noEmptyMessage = /^(?!\s*$).+/
             if(noEmptyMessage.test(this.state.message)){
                 messageRef = firebase.database().ref(`messages/${this.props.currentChatIDRedux}`)
@@ -110,12 +110,13 @@ class MessageInput extends Component {
                     }else if (this.props.emailRedux!==messageRefValues[messageRefValues.length-5]){
                         otherUserEmail = messageRefValues[messageRefValues.length-5]
                     }
-                    // messageCount = 
-                    // console.log(messageRefValues[messageRefValues.length-9])
                     messageRef.update({
                         lastMessage: Date.now(),
                         messageCount: messageRefValues[messageRefValues.length-9] + 1
                     })
+                    if (document.getElementById('scroll-here')){
+                        document.getElementById('scroll-here').scrollIntoView()
+                    }
                 })
                 this.props.dispatch(addQuantityLoadMessages(this.props.quantityLoadMessages + 1))
                 const message = {

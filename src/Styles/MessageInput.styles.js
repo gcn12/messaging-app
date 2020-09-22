@@ -14,7 +14,10 @@ export const MessageInputArea = styled.textarea`
     color: white;
 `
  
-export const MessageInputButton = styled.button`
+export const MessageInputButton = styled.div`
+    border: solid 1px rgb(50,50,50);
+    background-color: rgb(50,50,50);
+    color: white;
     &:hover {
         cursor: pointer
     }

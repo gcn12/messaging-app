@@ -199,7 +199,8 @@ class App extends Component {
     }
   }
 
-  newMessageRoute = (input) => {
+  newMessageRoute = (input, fileName) => {
+    console.log(fileName)
     if (input !== this.props.currentChatIDRedux){
       const route = async () => {
         await this.props.dispatch(addCurrentChatID(input))

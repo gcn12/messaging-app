@@ -119,7 +119,7 @@ class Inbox extends Component {
     inboxToMessagesAsync = (messageID) => {
         const runFunction = async () => {
             await this.props.dispatch(isMessageRequest(true))
-            await this.props.newMessageRoute(messageID)
+            await this.props.newMessageRoute(messageID, 'requests')
             await document.getElementById('scroll-here').scrollIntoView();
         }
         runFunction()
@@ -138,7 +138,7 @@ class Inbox extends Component {
                 <div>
                     
                     {this.props.isInboxTab ? 
-                    <div>Hellooo</div>
+                    null
                     :
                         Object.values(this.state.allInfo).map((message, index)=> {
                             return(
