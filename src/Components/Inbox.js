@@ -61,9 +61,6 @@ class Inbox extends Component {
                     let allUserEmails = []
                     let finalInfoObject = {}
                     // let continueLoop = true
-                    for (let i = 0; i<messageInfo.length; i++) {
-                        console.log(i)
-                    }
                     // for (let message of messageInfo){
                     //     console.log(message)
                     for (let i=0; i < messageInfo.length; i++){
