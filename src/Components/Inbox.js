@@ -124,7 +124,7 @@ class Inbox extends Component {
                                 }else{
                                     if(continueLoop){
                                     // if(this.props.isLoop){
-                                        console.log(this.props.currentChatIDRedux)
+                                        // console.log(this.props.currentChatIDRedux)
                                         if(this.props.currentChatIDRedux===null){
                                             if(snapshot.val().requestStatus!=='rejected'||snapshot.val().request!==this.props.emailRedux){
                                                 this.props.newMessageRoute(message.messageID)
