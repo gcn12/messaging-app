@@ -114,9 +114,6 @@ class MessageInput extends Component {
                         lastMessage: Date.now(),
                         messageCount: messageRefValues[messageRefValues.length-9] + 1
                     })
-                    if (document.getElementById('scroll-here')){
-                        document.getElementById('scroll-here').scrollIntoView()
-                    }
                 })
                 this.props.dispatch(addQuantityLoadMessages(this.props.quantityLoadMessages + 1))
                 const message = {
@@ -166,6 +163,9 @@ class MessageInput extends Component {
                 })
                 this.props.getMessages(this.props.currentChatIDRedux)
                 // document.getElementById("messageInput").value=""
+                if (document.getElementById(this.props.messagesIDName)){
+                    document.getElementById(this.props.messagesIDName).scrollIntoView()
+                }
             }
         }
     }
@@ -177,7 +177,7 @@ class MessageInput extends Component {
                     this.clearUnread(this.props.currentChatIDRedux)
                     e.preventDefault()
                     this.submitFunction()
-                    document.getElementById("messageInput").value = ""
+                    document.getElementById(this.props.inputIDName).value = ""
                 }
             }else{
                 e.preventDefault()
@@ -186,7 +186,7 @@ class MessageInput extends Component {
                 // if (document.getElementById('scroll-here')){
                 //     document.getElementById('scroll-here').scrollIntoView()
                 // }
-                document.getElementById("messageInput").value = ""
+                document.getElementById(this.props.inputIDName).value = ""
             }
         }
     }
@@ -237,7 +237,7 @@ class MessageInput extends Component {
     render(){
         return(
             <MessageInputContainer>
-                <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id="messageInput" onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
+                <MessageInputArea className="br3" onClick={()=>this.clearUnread(this.props.currentChatIDRedux)} id={this.props.inputIDName} onChange={this.handleMessageChange} placeholder="enter message"></MessageInputArea>
                 <MessageInputButton onClick={this.submit}>Send</MessageInputButton>
             </MessageInputContainer>
         ) 

@@ -161,8 +161,10 @@ class App extends Component {
       this.props.dispatch(isMessagesLoading(false))
     })
     if(!this.props.preventScrollDown){
-      if (document.getElementById('scroll-here')){
-        document.getElementById('scroll-here').scrollIntoView()
+      if (document.getElementById('mobile-messages')){
+        document.getElementById('mobile-messages').scrollIntoView()
+      } else if (document.getElementById('desktop-messages')){
+        document.getElementById('desktop-messages').scrollIntoView()
       }
       this.props.dispatch(preventScrollDown(false))
     }
@@ -254,6 +256,8 @@ class App extends Component {
               <InboxMobile>
                 <InboxContainer newMessageRoute={this.newMessageRoute} />
                 <MessageContainer 
+                messagesIDName='mobile-messages'
+                inputIDName='mobile-input'
                 newMessageRoute={this.newMessageRoute}
                 getMessages={this.getMessages}
                 usernameFunc={this.username}
@@ -264,6 +268,8 @@ class App extends Component {
               <MobileContainer>
                 {this.state.isChat ? 
                 <MessageContainer 
+                messagesIDName='desktop-messages'
+                inputIDName='desktop-input'
                 newMessageRoute={this.newMessageRoute}
                 getMessages={this.getMessages}
                 usernameFunc={this.username}

@@ -53,8 +53,9 @@ class MessageContainer extends Component {
                         isLoading={this.props.isMessagesLoading} 
                         removeItem={this.props.removeItem} 
                         user={this.props.usernameState}
+                        messagesIDName={this.props.messagesIDName}
                         />
-                        <div id="scroll-here"></div>
+                        <div id={this.props.messagesIDName}></div>
                     </Scroll>
                 </MessageContainerStyles>
                     {this.props.currentChatIDRedux!==null ? 
@@ -62,6 +63,8 @@ class MessageContainer extends Component {
                         <RequestButtons />
                         :
                         <MessageInput 
+                        messagesIDName={this.props.messagesIDName}
+                        inputIDName={this.props.inputIDName}
                         newMessageRoute={this.props.newMessageRoute}
                         usernameState={this.props.usernameState}
                         getMessages={this.props.getMessages} 
