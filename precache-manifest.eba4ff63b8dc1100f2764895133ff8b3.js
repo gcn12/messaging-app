@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d4751280ce854829780b20ff1c089c16",
+    "revision": "db875e576df09804110d5625b0ddf5f9",
     "url": "/messaging-app/index.html"
   },
   {
-    "revision": "b5f88aaca4b80cf98e03",
+    "revision": "2c4a9172913d1221a76f",
     "url": "/messaging-app/static/css/2.3c03f26f.chunk.css"
   },
   {
-    "revision": "46e3eaecd36395319461",
+    "revision": "523064fe71d19ef3e47c",
     "url": "/messaging-app/static/css/main.852f4b47.chunk.css"
   },
   {
-    "revision": "b5f88aaca4b80cf98e03",
-    "url": "/messaging-app/static/js/2.25b53cdd.chunk.js"
+    "revision": "2c4a9172913d1221a76f",
+    "url": "/messaging-app/static/js/2.bae904d1.chunk.js"
   },
   {
     "revision": "d56f7d70e49a582c3cb88e84fa36367e",
-    "url": "/messaging-app/static/js/2.25b53cdd.chunk.js.LICENSE.txt"
+    "url": "/messaging-app/static/js/2.bae904d1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "46e3eaecd36395319461",
-    "url": "/messaging-app/static/js/main.c1bb7b4e.chunk.js"
+    "revision": "523064fe71d19ef3e47c",
+    "url": "/messaging-app/static/js/main.5f853a91.chunk.js"
   },
   {
     "revision": "124b14fe8037f422840f",
