@@ -51,7 +51,7 @@ class ShowHideMessages extends Component {
                 <UserMessageStyle isCurrentUser={this.props.emailRedux===this.props.email ? true : false} onClick={this.show} className={this.props.user===this.props.userMessage ? "current-user grow br3 pa3 ma1 dib bw2 shadow-5" : "other-user grow br3 pa3 ma2 dib bw2 shadow-5"}>
                     {this.props.itemID!=="lastMessage"&&this.props.itemID!=="user1"&&this.props.itemID!=="user2"&&this.props.itemID!=="user2Photo"&&this.props.itemID!=="user1Photo"&&this.props.itemID!=="user2Email"&&this.props.itemID!=="user1Email" ? 
                     <div>
-                    <div id={this.props.idName}></div>
+                    {/* <div id={this.props.idName}></div> */}
                         {this.props.message}
                         {(this.props.index===this.props.messagesQuantity-11)&&(this.props.readTime>0)&&(this.props.email===this.props.emailRedux) ? 
                         <Seen>Seen {moment.unix(this.props.readTime/1000).calendar().toLowerCase()}</Seen>
@@ -119,7 +119,7 @@ class Messages extends Component {
                         itemID={message.itemId}
                         sent={message.sent}
                         // id={this.props.messagesIDName}
-                        idName={index===this.props.messagesRedux.length-12 ? 'desktop-messages': null}
+                        idName={index===this.props.messagesRedux.length-11 ? 'desktop-messages': null}
                         />
                     )
                 })

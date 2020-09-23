@@ -27,6 +27,7 @@ const InboxContainer = (props) => {
             <Scroll height={false}>
                 <InboxContainerStyle>
                     <Inbox 
+                    messagesIDName={props.messagesIDName}
                     newMessageRoute={props.newMessageRoute}
                     />
                 </InboxContainerStyle>
@@ -35,6 +36,7 @@ const InboxContainer = (props) => {
             <Scroll height={false}>
                 <InboxContainerStyle>
                     <Requests 
+                    messagesIDName={props.messagesIDName}
                     newMessageRoute={props.newMessageRoute}
                     />
                 </InboxContainerStyle>

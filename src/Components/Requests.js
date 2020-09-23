@@ -100,8 +100,8 @@ class Inbox extends Component {
                                     messagesArray.push(message.messageID)
                                 }
                             }
-                            if(document.getElementById('scroll-here')){
-                                document.getElementById('scroll-here').scrollIntoView();
+                            if(document.getElementById(this.props.messagesIDName)){
+                                document.getElementById(this.props.messagesIDName).scrollIntoView();
                             }
                         })
                         this.props.dispatch(addAllCurrentUserEmails(allUserEmails))
@@ -123,7 +123,7 @@ class Inbox extends Component {
         const runFunction = async () => {
             await this.props.dispatch(isMessageRequest(true))
             await this.props.newMessageRoute(messageID, 'requests')
-            await document.getElementById('scroll-here').scrollIntoView();
+            // await document.getElementById('scroll-here').scrollIntoView();
         }
         runFunction()
     } 

@@ -264,7 +264,10 @@ class App extends Component {
             </ChatButtonsMobile>
             <InboxMessageContainer>
               <InboxMobile>
-                <InboxContainer newMessageRoute={this.newMessageRoute} />
+                <InboxContainer 
+                messagesIDName='mobile-messages' 
+                newMessageRoute={this.newMessageRoute} 
+                />
                 <MessageContainer 
                 messagesIDName='mobile-messages'
                 inputIDName='mobile-input'
@@ -288,6 +291,7 @@ class App extends Component {
                 />
                 :
                 <InboxContainer 
+                messagesIDName='desktop-messages'
                 newMessageRoute={this.newMessageRoute}
                 />
                 }

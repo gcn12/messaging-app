@@ -55,7 +55,7 @@ class MessageContainer extends Component {
                         user={this.props.usernameState}
                         messagesIDName={this.props.messagesIDName}
                         />
-                        {/* <div id={this.props.messagesIDName}></div> */}
+                        <div id={this.props.messagesIDName}></div>
                     </Scroll>
                 </MessageContainerStyles>
                     {this.props.currentChatIDRedux!==null ? 

@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import firebase from '../firebase'
 import { connect } from 'react-redux'
-import { isInboxTab, isLoop } from '../Redux/actions/inboxActions'
+import { 
+    isInboxTab, 
+    // isLoop 
+} from '../Redux/actions/inboxActions'
 import { isMessageRequest } from '../Redux/actions/requestsActions'
 import { addMessages, addCurrentChatID } from '../Redux/actions/appActions'
 import { RequestButtonsContainer,
@@ -56,7 +59,7 @@ class RequestButtons extends Component {
         //     lastUpdated: Date.now()
         // })
         if (input==="accepted"){
-            this.props.dispatch(isLoop(true))
+            // this.props.dispatch(isLoop(true))
             this.clearUnread(this.props.currentChatIDRedux)
             this.props.dispatch(isInboxTab(true))
             //this.props.dispatch(addCurrentChatID(null))

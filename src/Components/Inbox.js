@@ -142,8 +142,8 @@ class Inbox extends Component {
                         this.props.dispatch(addAllCurrentUserIDs(allUserIDs))
                     }
                     if(this.props.messagesRedux.length >=  messagesArray.length+requestArray.length){
-                        if(document.getElementById('scroll-here')){
-                            document.getElementById('scroll-here').scrollIntoView();
+                        if(document.getElementById(this.props.messagesIDName)){
+                            document.getElementById(this.props.messagesIDName).scrollIntoView();
                         }
                     }
                     this.setState({
@@ -184,7 +184,7 @@ class Inbox extends Component {
                     }
                     return null
                 })
-                document.getElementById('scroll-here').scrollIntoView();
+                // document.getElementById(this.props.messagesIDName).scrollIntoView();
             }
         })
     }
@@ -194,14 +194,14 @@ class Inbox extends Component {
             const runFunction = async () => {
                 await this.props.dispatch(isMessageRequest(false))
                 await this.inboxToMessages(messageID)
-                await document.getElementById('scroll-here').scrollIntoView();
+                // await document.getElementById(this.props.messagesIDName).scrollIntoView();
             }
             runFunction()
         }
     } 
 
     componentDidMount(){
-        this.props.dispatch(isLoop(true))
+        // this.props.dispatch(isLoop(true))
         this.props.dispatch(addRequestCount(0))
         setTimeout(()=> this.getMessageSummaries(), 100)
         
