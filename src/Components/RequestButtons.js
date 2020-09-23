@@ -64,6 +64,21 @@ class RequestButtons extends Component {
             this.props.dispatch(isInboxTab(true))
             //this.props.dispatch(addCurrentChatID(null))
         }else{
+            const findDeleteRef = firebase.database().ref(`users/${this.props.userID}/messages`)
+            findDeleteRef.once('value', (snapshot)=> {
+                let keysArray = Object.keys(snapshot.val())
+                let valuesArray = Object.values(snapshot.val())
+                console.log(keysArray)
+                console.log(valuesArray)
+                for (let i = 0; i < valuesArray.length; i++){
+                    if(valuesArray[i].messageID===this.props.currentChatIDRedux){
+                        console.log(`users/${this.props.userID}/${keysArray[i]}`)
+                        const deleteRef = firebase.database().ref(`/users/${this.props.userID}/messages/${keysArray[i]}`)
+                        deleteRef.remove()
+                        break
+                    }
+                }
+            })
             this.props.dispatch(addMessages([]))
             this.props.dispatch(addCurrentChatID(null))
         }

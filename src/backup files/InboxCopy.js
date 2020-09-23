@@ -60,14 +60,9 @@ class Inbox extends Component {
                     let allUserIDs = []
                     let allUserEmails = []
                     let finalInfoObject = {}
-                    // let continueLoop = true
-                    for (let i = 0; i<messageInfo.length; i++) {
-                        console.log(i)
-                    }
-                    // for (let message of messageInfo){
-                    //     console.log(message)
-                    for (let i=0; i < messageInfo.length; i++){
-                        const messageSummary = firebase.database().ref(`messages/${messageInfo[i].messageID}`)
+                    let continueLoop = true
+                    for (let message of messageInfo){
+                        const messageSummary = firebase.database().ref(`messages/${message.messageID}`)
                         let lastMessage 
                         messageSummary.on('value', (snapshot)=> {
                             if(snapshot.val()){
@@ -111,36 +106,33 @@ class Inbox extends Component {
                                         lastMessage += "..."
                                     }
                                 }
-                                allUserIDs.push(messageInfo[i].messageID)
+                                allUserIDs.push(message.messageID)
                                 infoObject["message"] = lastMessage
                                 infoObject["photoURL"] = otherUserPhotoURL
                                 infoObject["displayName"] = otherUserDisplayName
                                 infoObject["unread"] = unreadCount
                                 if(snapshot.val().requestStatus==='accepted'||snapshot.val().request!==this.props.emailRedux){
-                                    finalInfoObject[messageInfo[i].messageID] = infoObject
+                                    finalInfoObject[message.messageID] = infoObject
                                     this.setState({
                                         allInfo: finalInfoObject
                                     })
                                     this.props.dispatch(addAllInfoInbox(finalInfoObject))
-                                    messagesArray.push(messageInfo[i].messageID)
+                                    messagesArray.push(message.messageID)
                                 }
                                 if(snapshot.val().request===this.props.emailRedux&&snapshot.val().requestStatus==='pending'){
-                                    requestArray.push(messageInfo[i].messageID)
+                                    requestArray.push(message.messageID)
                                 }else{
-                                    // if(continueLoop){
+                                    if(continueLoop){
                                     // if(this.props.isLoop){
                                         // console.log(this.props.currentChatIDRedux)
-                                        if(i===0){
-
-                                            if(this.props.currentChatIDRedux===null){
-                                                if(snapshot.val().requestStatus!=='rejected'||snapshot.val().request!==this.props.emailRedux){
-                                                    this.props.newMessageRoute(messageInfo[i].messageID)
-                                                    this.props.dispatch(isLoop(false))
-                                                    // continueLoop = false
-                                                }
+                                        if(this.props.currentChatIDRedux===null){
+                                            if(snapshot.val().requestStatus!=='rejected'||snapshot.val().request!==this.props.emailRedux){
+                                                this.props.newMessageRoute(message.messageID)
+                                                this.props.dispatch(isLoop(false))
+                                                continueLoop = false
                                             }
                                         }
-                                    // }
+                                    }
                                 }
                                 this.props.dispatch(addRequestCount(requestArray.length))
                             }
