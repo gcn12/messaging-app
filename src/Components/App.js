@@ -148,6 +148,15 @@ class App extends Component {
               readTime: items[item].readTime,
             })
           }
+          if(!this.props.preventScrollDown){
+            if (document.getElementById('mobile-messages')){
+              document.getElementById('mobile-messages').scrollIntoView()
+            }  
+            if (document.getElementById('desktop-messages')){
+              document.getElementById('desktop-messages').scrollIntoView()
+            }
+            this.props.dispatch(preventScrollDown(false))
+          }
           if(this.props.messagesRedux){
             if(items.messageCount === (newState.length-10)){
               this.props.dispatch(loadMessagesText('No more messages'))
@@ -167,8 +176,8 @@ class App extends Component {
       if (document.getElementById('desktop-messages')){
         document.getElementById('desktop-messages').scrollIntoView()
       }
-      this.props.dispatch(preventScrollDown(false))
     }
+    this.props.dispatch(preventScrollDown(false))
   }
 
   login = () => {

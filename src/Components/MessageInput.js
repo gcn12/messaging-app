@@ -163,9 +163,7 @@ class MessageInput extends Component {
                 })
                 this.props.getMessages(this.props.currentChatIDRedux)
                 // document.getElementById("messageInput").value=""
-                if (document.getElementById(this.props.messagesIDName)){
-                    document.getElementById(this.props.messagesIDName).scrollIntoView()
-                }
+                
             }
         }
     }
@@ -183,22 +181,13 @@ class MessageInput extends Component {
                 e.preventDefault()
                 this.clearUnread(this.props.currentChatIDRedux)
                 this.submitFunction()
-                // if (document.getElementById('scroll-here')){
-                //     document.getElementById('scroll-here').scrollIntoView()
-                // }
+                if (document.getElementById(this.props.messagesIDName)){
+                    document.getElementById(this.props.messagesIDName).scrollIntoView()
+                }
                 document.getElementById(this.props.inputIDName).value = ""
             }
         }
     }
-
-    // submit2 = () => {
-    //     this.clearUnread(this.props.currentChatIDRedux)
-    //     this.submitFunction()
-    //     // if (document.getElementById('scroll-here')){
-    //     //     document.getElementById('scroll-here').scrollIntoView()
-    //     // }
-    //     document.getElementById("messageInput").value=""
-    // }
 
     handleMessageChange = (e) => {
         this.setState({
