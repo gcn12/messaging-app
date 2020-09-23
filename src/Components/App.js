@@ -163,7 +163,8 @@ class App extends Component {
     if(!this.props.preventScrollDown){
       if (document.getElementById('mobile-messages')){
         document.getElementById('mobile-messages').scrollIntoView()
-      } else if (document.getElementById('desktop-messages')){
+      }  
+      if (document.getElementById('desktop-messages')){
         document.getElementById('desktop-messages').scrollIntoView()
       }
       this.props.dispatch(preventScrollDown(false))
