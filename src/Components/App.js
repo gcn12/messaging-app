@@ -13,6 +13,7 @@ import { AppContainer,
   InboxMobile,
   ChatButtonsMobile,
   MobileContainer,
+  CenterLogin,
 } from "../Styles/App.styles"
 import { connect } from 'react-redux'
 import ErrorBoundary from './ErrorBoundary'
@@ -59,9 +60,15 @@ class App extends Component {
   stayLoggedIn = () => {
     auth.onAuthStateChanged((user)=> {
       if(user){
-        this.setState({
-          username: user.displayName,
-        })
+        if(user.displayName) {
+          this.setState({
+            username: user.displayName,
+          })
+        }else{
+          this.setState({
+            username: 'Guest',
+          })
+        }
         this.props.dispatch(addEmail(user.email))
         this.props.dispatch(addUserID(user.uid))
         this.props.dispatch(addUser(user))
@@ -211,6 +218,50 @@ class App extends Component {
     }
   }
 
+  signInGuest = (email, password) => {
+    firebase.auth().signInWithEmailAndPassword('hello123@gmail.com', 'hello123')
+    .then((result) => {
+      const user = result.user
+      this.setState({
+        user,
+        username: user.displayName
+      })
+      const userRef = firebase.database().ref("users")
+      userRef.once('value', (snapshot)=>{
+        let users = snapshot.val()
+        let counter = 0
+        for (const userData in users){
+          if (users[userData].email===user.email){
+            counter++
+          }
+        }
+        if(counter===0){
+          this.addUserData(user.displayName, user.email, user.uid, user.photoURL)
+        }
+      })
+      this.getUserInfo()
+      // var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
+    });
+  }
+  createGuest = (email, password) => {
+    firebase.auth().createUserWithEmailAndPassword('hello123@gmail.com', 'hello123')
+    .then((userCredential) => {
+      // Signed in 
+      // var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
+      // ..
+    });
+  }
+
   newMessageRoute = (input) => {
     if (input !== this.props.currentChatIDRedux){
       const route = async (input) => {
@@ -247,7 +298,13 @@ class App extends Component {
               this.state.showLogInButton ? 
             <HomepageContainer>
               <AppTitle>Messaging App</AppTitle>
-              <LogInButton onClick={this.login}>LOG IN</LogInButton>              
+              <CenterLogin>
+                <div style={{display: 'flex'}}>
+                  <LogInButton onClick={this.signInGuest}>LOG IN AS GUEST</LogInButton>   
+                  <div style={{marginRight: '10px'}}></div>           
+                  <LogInButton onClick={this.login}>LOG IN WITH GOOGLE</LogInButton>
+                </div>
+              </CenterLogin>
             </HomepageContainer>
               :
               null

@@ -1,5 +1,12 @@
 import styled from "styled-components"
 
+export const CenterLogin = styled.div`
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`
+
 export const MobileContainer = styled.div`
     @media (min-width: 900px){
         display: none;
@@ -26,16 +33,17 @@ export const LogOutButton = styled.button`
 
 export const LogInButton = styled.button`
     border: none;
-    height: 5vh;
-    width: 20vw;
+    /* height: 5vh;
+    width: 20vw; */
+    padding: 15px 20px;
     min-width: 200px;
     color: white;
     cursor: pointer;
     background-color: rgb(18, 208, 255);
-    position: absolute;
-    top: 55%;
+    /* position: absolute; */
+    /* top: 55%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     font-family: 'Lato';
     font-size:calc(12px + 1vw);
     &:hover {

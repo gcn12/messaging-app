@@ -21,6 +21,7 @@ export const ProfileImage = styled.img`
     padding-left: 10px;
     height: 60px;
     width: 60px;
+    object-fit: cover;
 `
 
 export const MessageContainer = styled.div`

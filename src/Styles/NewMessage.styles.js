@@ -13,7 +13,7 @@ export const NewMessageInput = styled.input`
     height: 30px;
     width: 250px;
     cursor: pointer;
-    background-color: gray;
+    background-color: darkgray;
     color: white;
     border: none;
     margin: 0 5px 0 10px;

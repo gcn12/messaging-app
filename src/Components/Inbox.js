@@ -60,9 +60,6 @@ class Inbox extends Component {
                     let allUserIDs = []
                     let allUserEmails = []
                     let finalInfoObject = {}
-                    // let continueLoop = true
-                    // for (let message of messageInfo){
-                    //     console.log(message)
                     for (let i=0; i < messageInfo.length; i++){
                         const messageSummary = firebase.database().ref(`messages/${messageInfo[i].messageID}`)
                         let lastMessage 
